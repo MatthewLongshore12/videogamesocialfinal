@@ -122,7 +122,7 @@ class UserByID(Resource):
 
     def patch(self, id):
         if id not in [u.id for u in User.query.all()]:
-            return {'error': '404, Fan not Found!'}, 404
+            return {'error': '404, User not Found!'}, 404
 
         data = request.get_json()
         user = User.query.filter(User.id==id).first()
@@ -239,7 +239,7 @@ class PostByID(Resource):
         except:
             db.session.rollback()
 
-        return make_response({'message': 'The venue has been deleted'}, 200)
+        return make_response({'message': 'The post has been deleted'}, 200)
 
 
 
