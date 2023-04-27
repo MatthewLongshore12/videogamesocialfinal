@@ -23,7 +23,8 @@ class User(db.Model, SerializerMixin):
     dob = db.Column(db.String, nullable=False)
 
 
-    communities = db.relationship('Community', backref='user')
+    posts = db.relationship('Post', backref='user')
+    communities = association_proxy('posts', 'community')
 
     @hybrid_property
     def password_hash(self):
@@ -72,3 +73,4 @@ class Community(db.Model, SerializerMixin):
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
     posts = db.relationship('Post', backref='community')
+    users = association_proxy('Post', 'user')

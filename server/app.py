@@ -5,7 +5,7 @@ from flask_migrate import Migrate
 
 
 from config import app, db, api, bcrypt
-from models import User
+from models import User, Community, Post
 
 class Home(Resource):
     def get(self):
@@ -147,6 +147,101 @@ class UserByID(Resource):
         return make_response({'message': 'The user has been deleted'}, 200)
 
 
+class Communities(Resource):
+    def get(self):
+        return make_response([c.to_dict() for c in Community.query.all()], 200)
+
+    def post(self):
+        data = request.get_json()
+        new_community = Community(
+            name=data['name'],
+            description=data['description'],
+            video_game=data['video_game']
+        )
+        db.session.add(new_community)
+        db.session.commit()
+        return {'message': '201, a new community has been added!'}, 201
+
+class CommunityByID(Resource):
+    def get(self, id):
+        if id not in [c.id for c in Community.query.all()]:
+            return {'error': '404, Community not Found!'}, 404
+
+        return make_response((Community.query.filter(Community.id==id).first()).to_dict(), 200)
+
+    def patch(self, id):
+        if id not in [c.id for c in Community.query.all()]:
+            return {'error': '404, Community not Found!'}, 404
+
+        data = request.get_json()
+        community = Community.query.filter(Community.id==id).first()
+        for key in data.keys():
+            setattr(community, key , data[key])
+        db.session.add(community)
+        db.session.commit()
+        return make_response(community.to_dict(), 200)
+
+    def delete(self, id):
+        if id not in [c.id for c in Community.query.all()]:
+            return {'error': '404, Community not Found!'}, 404
+        try:
+            community = Community.query.filter(Community.id==id).first()
+            db.session.delete(community)
+            db.session.commit()
+        except:
+            db.session.rollback()
+
+        return make_response({'message': 'The community has been deleted'}, 200)
+    
+
+
+class Posts(Resource):
+    def get(self):
+        return make_response([p.to_dict() for p in Post.query.all()], 200)
+
+    def post(self):
+        data = request.get_json()
+        new_post = Post(
+            name=data['name'],
+            description=data['description'],
+            video_game=data['video_game']
+        )
+        db.session.add(new_post)
+        db.session.commit()
+        return {'message': '201, a new post has been added!'}, 201
+
+class PostByID(Resource):
+    def get(self, id):
+        if id not in [p.id for p in Post.query.all()]:
+            return {'error': '404, Post not Found!'}, 404
+
+        return make_response((Post.query.filter(Post.id==id).first()).to_dict(), 200)
+
+    def patch(self, id):
+        if id not in [p.id for p in Post.query.all()]:
+            return {'error': '404, Post not Found!'}, 404
+
+        data = request.get_json()
+        post = Post.query.filter(Post.id==id).first()
+        for key in data.keys():
+            setattr(post, key , data[key])
+        db.session.add(post)
+        db.session.commit()
+        return make_response(post.to_dict(), 200)
+
+    def delete(self, id):
+        if id not in [p.id for p in Post.query.all()]:
+            return {'error': '404, Post not Found!'}, 404
+        try:
+            post = Post.query.filter(Post.id==id).first()
+            db.session.delete(post)
+            db.session.commit()
+        except:
+            db.session.rollback()
+
+        return make_response({'message': 'The venue has been deleted'}, 200)
+
+
 
 
         
@@ -158,6 +253,10 @@ api.add_resource(CheckSession, '/check_session', endpoint='check_session')
 api.add_resource(ClearSession, '/clear', endpoint='clear')
 api.add_resource(Users, '/users')
 api.add_resource(UserByID, '/users/<int:id>')
+api.add_resource(Communities, '/communities')
+api.add_resource(CommunityByID, '/communities/<int:id>')
+api.add_resource(Posts, '/posts')
+api.add_resource(PostByID, '/posts/<int:id>')
 
 
 
