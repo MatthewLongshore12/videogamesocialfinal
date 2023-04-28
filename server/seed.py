@@ -9,9 +9,15 @@ if __name__ == '__main__':
         
         print("Starting seed...")
         # create some users
-        alice = User(username='alice', email='alice@example.com', _password_hash='password123', password_confirmation='password123', first_name='Alice', last_name='Smith', dob='1/22/2001')
-        bob = User(username='bob', email='bob@example.com', _password_hash='password123', password_confirmation='password123', first_name='Bob', last_name='Jones', dob='2/14/1978')
-        carol = User(username='carol', email='carol@example.com', _password_hash='password123', password_confirmation='password123', first_name='Carol', last_name='Lee', dob='7/27/1959')
+        alice = User(username='alice', email='alice@example.com', first_name='Alice', last_name='Smith', dob='1/22/2001')
+        alice.password_hash = 'password123'
+        
+        bob = User(username='bob', email='bob@example.com', first_name='Bob', last_name='Jones', dob='2/14/1978')
+        bob.password_hash = 'password123'
+        
+        carol = User(username='carol', email='carol@example.com', first_name='Carol', last_name='Lee', dob='7/27/1959')
+        carol.password_hash = 'password123'
+        
         db.session.add_all([alice, bob, carol])
         db.session.commit()
 

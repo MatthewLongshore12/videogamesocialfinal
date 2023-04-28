@@ -1,8 +1,8 @@
-"""models created
+"""redid models a tiny bit
 
-Revision ID: c1e79c5fdcbf
+Revision ID: a0903f24eef6
 Revises: 
-Create Date: 2023-04-26 15:30:57.527889
+Create Date: 2023-04-28 09:34:33.454898
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'c1e79c5fdcbf'
+revision = 'a0903f24eef6'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -31,7 +31,6 @@ def upgrade():
     sa.Column('username', sa.String(length=50), nullable=False),
     sa.Column('email', sa.String(length=120), nullable=False),
     sa.Column('_password_hash', sa.String(), nullable=False),
-    sa.Column('password_confirmation', sa.String(), nullable=False),
     sa.Column('first_name', sa.String(), nullable=False),
     sa.Column('last_name', sa.String(), nullable=False),
     sa.Column('dob', sa.String(), nullable=False),

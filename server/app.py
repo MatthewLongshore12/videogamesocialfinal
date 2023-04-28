@@ -7,85 +7,103 @@ from flask_migrate import Migrate
 from config import app, db, api, bcrypt
 from models import User, Community, Post
 
+# app.secret_key = '\xe5\xa6\x95_\xefg\x1f\x9db`\x1a\x97FN\x87\x8a\xb3<j\xd9B4\xe7'
+
+# secret_key = app.secret_key
+
+# print(f"My app's secret key is: {secret_key}")
+
 class Home(Resource):
     def get(self):
             return 'HomePage'
     
     
 class SignUp(Resource):
-    def post(self):
+     def post(self):
+
         username = request.json['username']
         email = request.json['email']
         password = request.json['password']
-        password_confirmation = request.json['password_confirmation']
-        firstname = request.json['first_name']
-        lastname = request.json['last_name']
+        first_name = request.json['first_name']
+        last_name = request.json['last_name']
         dob = request.json['dob']
 
-        user_exists = User.query.filter(User.username == username).first() is not None
 
-        if user_exists:
-            return jsonify({"error": "User already exists"}), 409
-
-        hashed_password = bcrypt.generate_password_hash(password)
-        hashed_password_confirmation = bcrypt.generate_password_hash(password_confirmation)
-        new_user = User(
+        user = User(
             username=username,
             email=email,
-            _password_hash=hashed_password,
-            password_confirmation = hashed_password_confirmation,
-            first_name=firstname,
-            last_name=lastname,
+            password=password,
+            first_name=first_name,
+            last_name=last_name,
             dob=dob
         )
-        db.session.add(new_user)
-        db.session.commit()
-        return jsonify({
-            "id": new_user.id,
-            "username": new_user.username,
-            "email": new_user.email
-        })
+
+        user.password_hash = password
+
+        print('first')
+
+        try:
+            print('here!')
+            db.session.add(user)
+            db.session.commit()
+
+            session['user_id'] = user.id
+
+            print(user.to_dict())
+            return user.to_dict(), 201
+
+        except IntegrityError:
+            print('not, here!')
+            return {'error': '422 Unprocessable Entity'}, 422
 
 class Login(Resource):
-
     def post(self):
+        data = request.get_json()
 
-        email = request.get_json().get('email')
-        password = request.get_json().get('password')
+        email = data.get('email')
+        password = data.get('password')
+
         user = User.query.filter(User.email == email).first()
 
-        # password = request.get_json()['password']
+        if user:
+            if user.authenticate(password):
 
-        # if user.authenticate(password):
-        if user is None:
-            return {'error': 'Invalid email or password'}, 401
-        if not bcrypt.check_password_hash(user._password_hash, password):
-            return {'error': 'Invalid email or password'}, 401
+                session['user_id'] = user.id
+                return user.to_dict(), 200
 
-        flash("Login Successful!")
-        session.permanent = True
-        session['user_id'] = user.id
-        return jsonify({
-            "id": user.id,
-            "email": user.email,
-            "first_name": user.first_name
-        })
+        return {'error': '401 Unauthorized'}, 401
+
     
 class Logout(Resource):
     def delete(self):
-        session.pop('user_id', None)
-        return session.get('user_id')
+        # Check if the user is logged in
+        if 'user_id' not in session:
+            return {'message': 'You are not logged in'}, 401
+
+        # Get the user
+        user = User.query.filter(User.id == session['user_id']).first()
+
+        # Check if the user exists
+        if not user:
+            return {'message': 'User not found'}, 404
+
+        # Delete the user
+        db.session.delete(user)
+        db.session.commit()
+
+        # Clear the session
+        session.clear()
+
+        return {'message': 'User deleted successfully'}, 200
 
 class CheckSession(Resource):
 
     def get(self):
-
-        user_id = session['user_id']
-        if user_id:
-            user = User.query.filter(User.id == user_id).first()
-            return user.to_dict(), 200
-
-        return {}, 401
+        if session.get('user_id'):
+            user = User.query.filter(User.id == session['user_id']).first()
+            return make_response(user.to_dict(), 200)
+        else:
+            return {'message': '401: Not Authorized'}, 401
 
 class ClearSession(Resource):
 
@@ -247,9 +265,9 @@ class PostByID(Resource):
         
 api.add_resource(Home, '/')
 api.add_resource(SignUp, '/signup', endpoint='signup')
-api.add_resource(Login, '/login', endpoint='login')
-api.add_resource(Logout, '/logout', endpoint='logout')
-api.add_resource(CheckSession, '/check_session', endpoint='check_session')
+api.add_resource(Login, '/login')
+api.add_resource(Logout, '/logout')
+api.add_resource(CheckSession, '/check_session')
 api.add_resource(ClearSession, '/clear', endpoint='clear')
 api.add_resource(Users, '/users')
 api.add_resource(UserByID, '/users/<int:id>')

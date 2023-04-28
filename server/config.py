@@ -7,9 +7,11 @@ from sqlalchemy import MetaData
 from flask_bcrypt import Bcrypt
 
 app = Flask(__name__)
+app.secret_key = b'\xe5\xa6\x95_\xefg\x1f\x9db`\x1a\x97FN\x87\x8a\xb3<j\xd9B4\xe7'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.json.compact = False
+
 
 metadata = MetaData(naming_convention={
     "fk": "fk_%(table_name)s_%(column_0_name)s_%(referred_table_name)s",
@@ -21,3 +23,4 @@ db.init_app(app)
 api = Api(app)
 bcrypt = Bcrypt(app)
 CORS(app)
+
