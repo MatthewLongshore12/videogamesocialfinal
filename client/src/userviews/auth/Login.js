@@ -28,9 +28,14 @@ const Login = () => {
                         navigate('/profile')
                     });
                 } else {
-                    r.json().then((err) => console.log(err));
-                    window.alert("Invalid email or password")
+                    r.json().then((err) => {
+                        window.alert(err.message);
+                    });
                 }
+            })
+            .catch((err) => {
+                console.log(err);
+                window.alert("Incorrect email or password, please try again");
             });
     }
 
