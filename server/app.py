@@ -19,7 +19,7 @@ class Home(Resource):
     
     
 class SignUp(Resource):
-     def post(self):
+    def post(self):
 
         username = request.json['username']
         email = request.json['email']
@@ -28,50 +28,41 @@ class SignUp(Resource):
         last_name = request.json['last_name']
         dob = request.json['dob']
 
+        user_exists = User.query.filter(User.username == username).first() is not None
 
-        user = User(
+        if user_exists:
+            return jsonify({"error": "User already exists"}), 409
+
+        hashed_password = bcrypt.generate_password_hash(password)
+        new_user = User(
             username=username,
             email=email,
-            password=password,
+            _password_hash=hashed_password,
             first_name=first_name,
             last_name=last_name,
             dob=dob
+
         )
-
-        user.password_hash = password
-
-        print('first')
-
-        try:
-            print('here!')
-            db.session.add(user)
-            db.session.commit()
-
-            session['user_id'] = user.id
-
-            print(user.to_dict())
-            return user.to_dict(), 201
-
-        except IntegrityError:
-            print('not, here!')
-            return {'error': '422 Unprocessable Entity'}, 422
+        db.session.add(new_user)
+        db.session.commit()
+        return new_user.to_dict()
 
 class Login(Resource):
     def post(self):
-        data = request.get_json()
 
-        email = data.get('email')
-        password = data.get('password')
+        email = request.get_json()['email']
+        password = request.get_json()['password']
+        user = User.query.filter_by(email = email).first()
+        
+        if user.authenticate(password) == True:
+            session['user_id'] = user.id
+            return user.to_dict()
 
-        user = User.query.filter(User.email == email).first()
+        elif user is None:
+            return {'error': 'Invalid email or password'}, 401
 
-        if user:
-            if user.authenticate(password):
-
-                session['user_id'] = user.id
-                return user.to_dict(), 200
-
-        return {'error': '401 Unauthorized'}, 401
+        else:
+            return {'error', 'Invalid email or password'}, 401
 
     
 class Logout(Resource):

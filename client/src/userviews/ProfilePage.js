@@ -13,7 +13,7 @@ const ProfilePage = () => {
   return (
     <div>
       <h2>Hello, {user.username}!</h2>
-      <p>Welcome to your Dashboard</p>
+      <p>Welcome to your Profile</p>
     </div>
   );
 };
