@@ -35,6 +35,16 @@ const Sidebar = ({ setMode, mode }) => {
             </ListItemButton>
           </ListItem>
 
+          {/* Communities */}
+          <ListItem disablePadding>
+            <ListItemButton component={NavLink} to="/communities">
+              <ListItemIcon>
+                <Diversity3Icon />
+              </ListItemIcon>
+              <ListItemText primary="Communities" />
+            </ListItemButton>
+          </ListItem>
+
           {/* Friends */}
           <ListItem disablePadding>
             <ListItemButton component={NavLink} to="/friends">

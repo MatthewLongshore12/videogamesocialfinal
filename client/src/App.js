@@ -50,9 +50,12 @@ function App() {
   return (
     <div className="App">
       <ThemeProvider theme={darkTheme}>
+        <Box  bgcolor={"background.default"} color = {"text.primary"}>
         <UserProvider value={{ user, setUser }}>
           {user ? <NavBar /> : null}
+          <Stack  direction="row" justifyContent="space-evenly" spacing={2} >
           {user ? <Sidebar mode={mode} setMode = {setMode}/> : null}
+          </Stack>
           <Routes>
             {/* <Route index element={<Root user={user} />} /> */}
             <Route path="/login" element={user ? <Navigate to="/profile" replace /> : <Login />} />
@@ -61,6 +64,7 @@ function App() {
             <Route path="/" element={<HomePage />} />
           </Routes>
         </UserProvider>
+        </Box>
       </ThemeProvider>
     </div>
   );
