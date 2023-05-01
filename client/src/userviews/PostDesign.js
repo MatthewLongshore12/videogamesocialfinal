@@ -9,7 +9,7 @@ import ScreenShareIcon from '@mui/icons-material/ScreenShare';
 const PostDesign = () => {
 
   // Define state to hold data retrieved from API
-  const [postsData, setPostsData] = useState([]);
+  const [postsData, setPostsData] = useState([])
   const [usersData, setUsersData] = useState([])
 
   // Fetch data from API when component mounts

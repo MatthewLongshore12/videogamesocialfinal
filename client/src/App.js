@@ -9,6 +9,7 @@ import { UserProvider, UserContext } from './statekeeper/state';
 import Signup from './userviews/auth/Signup';
 import Sidebar from './userviews/Sidebar';
 import HomePage from './userviews/HomePage'
+import CommunityPage from './userviews/CommunityPage';
 
 
 function App() {
@@ -61,6 +62,7 @@ function App() {
             <Route path="/login" element={user ? <Navigate to="/profile" replace /> : <Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/communities" element={<CommunityPage />} />
             <Route path="/" element={<HomePage />} />
           </Routes>
         </UserProvider>
