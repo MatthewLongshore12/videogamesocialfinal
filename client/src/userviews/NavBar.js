@@ -78,8 +78,8 @@ function NavBar({ onLogout }) {
 
   {/* User box for small size  */}
   <UserBox onClick={handleClick}>
-  <Avatar alt="Remy Sharp" src="https://mui.com/static/images/avatar/1.jpg" />
-  <Typography>Lama</Typography>  
+  <Avatar alt="Remy Sharp" src="https://staticc.sportskeeda.com/editor/2023/04/8e02f-16828176963131-1920.jpg?w=840" />
+  <Typography>Mobile</Typography>  
   </UserBox>
      
     </StyledToolbar>
