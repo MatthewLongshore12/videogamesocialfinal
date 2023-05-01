@@ -66,26 +66,15 @@ class Login(Resource):
 
     
 class Logout(Resource):
-    def delete(self):
+   def delete(self):
         # Check if the user is logged in
         if 'user_id' not in session:
             return {'message': 'You are not logged in'}, 401
 
-        # Get the user
-        user = User.query.filter(User.id == session['user_id']).first()
-
-        # Check if the user exists
-        if not user:
-            return {'message': 'User not found'}, 404
-
-        # Delete the user
-        db.session.delete(user)
-        db.session.commit()
-
         # Clear the session
         session.clear()
 
-        return {'message': 'User deleted successfully'}, 200
+        return {'message': 'User logged out successfully'}, 200
 
 class CheckSession(Resource):
 

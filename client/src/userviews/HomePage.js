@@ -1,43 +1,24 @@
-// import NavButton from './NavButton'
-import Login from '../userviews/auth/Login'
+import React, { useContext } from "react";
+import { Navigate } from 'react-router-dom'
+import { UserContext } from '../statekeeper/state'
 import NavBar from './NavBar'
+import Sidebar from './Sidebar'
 
-export const Root = ({ onLogout, user }) => {
-    if (user) {
-        return (
-            <>
-                <NavBar onLogout={onLogout} />
-                <h1>Welcome to VideoGameSocial!</h1>
-                <Login />
-            </>
-        )
-    } else {
-        return <Login />;
+const HomePage = () => {
+    const { user, setUser } = useContext( UserContext )
+
+
+    if(!user) {
+        return <Navigate replace to="/login" />
     }
 
-    // return (
-    //     <div>
-    //         <NavBar onLogout={onLogout} />
-    //         <h1>Landing Page</h1>
-    //         <Login />
-
-
-
-    //         <br />
-    //         <NavButton path="/signup" text="Sign Up" />
-
-
-    //     </div>
-    // )
-}
-
-export const NotFound = () => {
     return (
-        <>
-            {/* <NavButton /> */}
-            <br />
-            <h1>404 Not Found</h1>
-        </>
+        <div>
+            <NavBar />
+            <Sidebar />
+            <h1>This is the VideoGameSocial HomePage</h1>
+        </div>
     )
-
 }
+
+export default HomePage
