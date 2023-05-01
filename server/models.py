@@ -57,7 +57,7 @@ class Post(db.Model, SerializerMixin):
     caption = db.Column(db.Text, nullable=False)
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    community_id = db.Column(db.Integer, db.ForeignKey('communities.id'), nullable=False)
+    community_id = db.Column(db.Integer, db.ForeignKey('communities.id'))
     
 
 class Community(db.Model, SerializerMixin):

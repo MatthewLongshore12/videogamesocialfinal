@@ -200,9 +200,10 @@ class Posts(Resource):
     def post(self):
         data = request.get_json()
         new_post = Post(
-            name=data['name'],
-            description=data['description'],
-            video_game=data['video_game']
+            image=data['image'],
+            caption=data['caption'],
+            user_id=data['user_id'],
+            community_id=data['community_id']
         )
         db.session.add(new_post)
         db.session.commit()

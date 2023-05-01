@@ -45,17 +45,17 @@ const PostDesign = () => {
     <>
       {/* card  */}
       {postsData.map((item) => {
-        const user = usersData.find((user) => user.id === item.user_id);
+        const user = usersData.find((user) => user.id === item.user_id)
         return (
           <Card sx={{ margin: 5 }} key={item.id}>
             <CardHeader
-              avatar={
-                <Avatar
-                  src={user.avatar}
-                  sx={{ bgcolor: red[500] }}
-                  aria-label="recipe"
-                ></Avatar>
-              }
+              // avatar={
+              //   <Avatar
+              //     src={user.avatar}
+              //     sx={{ bgcolor: red[500] }}
+              //     aria-label="recipe"
+              //   ></Avatar>
+              // }
               title={item.caption}
               subheader={`"${item.date_posted}"`}
             />
@@ -63,7 +63,7 @@ const PostDesign = () => {
   
             <CardContent>
               <Typography variant="body2" color="text.secondary">
-                {user.username}
+                {user ? user.username : ''}
               </Typography>
             </CardContent>
   
