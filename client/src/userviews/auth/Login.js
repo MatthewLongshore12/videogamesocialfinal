@@ -15,29 +15,30 @@ const Login = () => {
     function handleSubmit(e) {
         e.preventDefault();
         fetch("http://127.0.0.1:5555/login", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ email, password }),
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, password }),
         })
-            .then((r) => {
-                if (r.ok) {
-                    r.json().then((user) => {
-                        setUser(user);
-                        navigate('/profile')
-                    });
-                } else {
-                    r.json().then((err) => {
-                        window.alert(err.message);
-                    });
-                }
-            })
-            .catch((err) => {
-                console.log(err);
-                window.alert("Incorrect email or password, please try again");
-            });
-    }
+          .then((r) => {
+            if (r.ok) {
+              r.json().then((user) => {
+                setUser(user);
+                localStorage.setItem("user", JSON.stringify(user)); // store user details in localStorage
+                navigate('/profile')
+              });
+            } else {
+              r.json().then((err) => {
+                window.alert(err.message);
+              });
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+            window.alert("Incorrect email or password, please try again");
+          });
+      }
 
     return (
         <>
