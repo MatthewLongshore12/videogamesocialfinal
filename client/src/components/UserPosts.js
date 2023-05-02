@@ -4,11 +4,19 @@ import "../stylesheets/userposts.css"
 import { ExpandMore, Favorite, FavoriteBorder } from '@mui/icons-material';
 import { Box, Avatar, CardActions, CardContent, CardHeader, CardMedia, Checkbox, Collapse, IconButton, Typography } from '@mui/material';
 import { Card } from '@mui/material';
+import EditPost from "./EditPost";
 
 function UserPosts() {
-  const { user, setUser } = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const [postsData, setPostsData] = useState([]);
   const [usersData, setUsersData] = useState([]);
+  const [currentPost, setCurrentPost] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  function handleEditClick(post) {
+    setCurrentPost(post);
+    setIsModalOpen(true);
+  }
 
   useEffect(() => {
     const fetchData = async () => {
@@ -28,6 +36,8 @@ function UserPosts() {
 
   return (
     <div className="feed">
+      {/* GOING TO BE BUTTONS THAT SHOW EITHER POSTS OR OWNED COMMUNITIES */}
+      <h1>PLACEHOLDER</h1>
       <div className="feedWrapper">
         <>
           {/* card  */}
@@ -66,13 +76,13 @@ function UserPosts() {
                       color="secondary"
                       icon={<FavoriteBorder />}
                       checkedIcon={<Favorite />}
-                    />
+                      />
                   </IconButton>
                   {/* THIS IS A SHARE BUTTON IF I GET TO IT I WILL ADD IT AND YOU WILL BE ABLE TO SHARE POSTS IN CHATS */}
                   {/* <IconButton aria-label="share">
                     <Checkbox
-                      icon={<ScreenShareIcon />}
-                      checkedIcon={<ScreenShareIcon />}
+                    icon={<ScreenShareIcon />}
+                    checkedIcon={<ScreenShareIcon />}
                     />
                   </IconButton> */}
                 {/* THIS IS A PLACEHOLDER TO EXPAND TO COMMENTS PROBABLY */}
@@ -81,13 +91,15 @@ function UserPosts() {
                     //  onClick={handleExpandClick}
                     //  aria-expanded={expanded}
                     aria-label="show more"
-                  >
+                    >
                     {/* <ExpandMoreIcon /> */}
                   </ExpandMore>
+                  <button onClick={() => handleEditClick(item)}>EDIT</button>
                 </CardActions>
               </Card>
             );
           })}
+          <EditPost isOpen={isModalOpen} handleClose={() => setIsModalOpen(false)} post={currentPost} />
         </>
       </div>
     </div>

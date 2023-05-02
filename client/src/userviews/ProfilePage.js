@@ -6,6 +6,7 @@ import NavBar from "./NavBar";
 import Sidebar from "./Sidebar";
 import ProfileInfo from "../components/ProfileInfo";
 import UserPosts from "../components/UserPosts";
+import MakePost from "../userviews/MakePost"
 
 function ProfilePage({handleLogout}) {
   const { user, setUser } = useContext(UserContext);
@@ -20,6 +21,7 @@ function ProfilePage({handleLogout}) {
       <NavBar />
       <div className="profile">
         <Sidebar />
+        <MakePost />
         <div className="profileRight">
           <div className="profileRightTop">
             <div className="profileCover">
@@ -30,14 +32,14 @@ function ProfilePage({handleLogout}) {
                   user.cover_picture
                 }
                 alt="profilepic"
-              />
+                />
               <img
                 className="profileUserImg"
                 src={
                   user.profile_picture
                 }
                 alt="profilepic"
-              />
+                />
             </div>
             <div className="profileInfo">
               <h4 className="profileInfoName">{user.username}</h4>
