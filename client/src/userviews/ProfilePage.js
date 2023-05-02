@@ -22,8 +22,8 @@ const ProfilePage = () => {
 
   return (
     <div>
-      <NavBar />
-      <Sidebar />
+      {/* <NavBar /> */}
+      {/* <Sidebar /> */}
       <h2>Hello, {user.username}!</h2>
       <p>Welcome to your Profile</p>
       <button onClick={handleLogout}>Logout</button>

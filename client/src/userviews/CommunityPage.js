@@ -17,8 +17,8 @@ const CommunityPage = () => {
 
     return (
         <div>
-            <NavBar />
-            <Sidebar />
+            {/* <NavBar /> */}
+            {/* <Sidebar /> */}
             <Box flex={4} p={2}>
                 <Box display="inline-block">
                     <CommunityDesign />

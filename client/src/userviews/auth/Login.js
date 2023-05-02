@@ -1,33 +1,28 @@
-import { useContext, useState } from 'react'
+import { useContext, useState, useEffect } from 'react'
 import NavController from '../../components/NavController'
 import { useNavigate } from "react-router-dom";
 import { UserContext } from '../../statekeeper/state';
 
 
-const Login = () => {
+function Login({handleLogin}) {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-
+    const { user } = useContext(UserContext)
     const navigate = useNavigate()
-    const { setUser } = useContext(UserContext)
 
     function handleSubmit(e) {
         e.preventDefault();
-        fetch("http://127.0.0.1:5555/login", {
+        fetch("/login", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({ email, password }),
-        })
-          .then((r) => {
+        }).then((r) => {
             if (r.ok) {
-              r.json().then((user) => {
-                setUser(user);
-                localStorage.setItem("user", JSON.stringify(user)); // store user details in localStorage
-                navigate('/profile')
-              });
+              r.json().then((user) => handleLogin(user)); // Use handleLogin to update the user state
+              navigate("/profile");
             } else {
               r.json().then((err) => {
                 window.alert(err.message);

@@ -85,15 +85,6 @@ class CheckSession(Resource):
             return make_response(user.to_dict(), 200)
         else:
             return {'message': '401: Not Authorized'}, 401
-
-class ClearSession(Resource):
-
-    def delete(self):
-
-        session['page_views'] = None
-        session['user_id'] = None
-
-        return {}, 204
     
 class Users(Resource):
     def get(self):
@@ -249,10 +240,9 @@ class PostByID(Resource):
         
 api.add_resource(Home, '/')
 api.add_resource(SignUp, '/signup', endpoint='signup')
-api.add_resource(Login, '/login')
-api.add_resource(Logout, '/logout')
-api.add_resource(CheckSession, '/check_session')
-api.add_resource(ClearSession, '/clear', endpoint='clear')
+api.add_resource(Login, '/login', endpoint='login')
+api.add_resource(Logout, '/logout', endpoint='logout')
+api.add_resource(CheckSession, '/check_session', endpoint='check_session')
 api.add_resource(Users, '/users')
 api.add_resource(UserByID, '/users/<int:id>')
 api.add_resource(Communities, '/communities')

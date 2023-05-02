@@ -5,67 +5,62 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import Login from './userviews/auth/Login';
 import ProfilePage from './userviews/ProfilePage';
 import NavBar from './userviews/NavBar';
-import { UserProvider, UserContext } from './statekeeper/state';
+import { UserContext } from './statekeeper/state';
 import Signup from './userviews/auth/Signup';
 import Sidebar from './userviews/Sidebar';
 import HomePage from './userviews/HomePage'
 import CommunityPage from './userviews/CommunityPage';
 
-
 function App() {
-  const { user, setUser } = useContext(UserContext)
-  const [mode,setMode ] =  useState("dark")
+  const { user, setUser } = useContext(UserContext);
+  const [mode, setMode] = useState("dark");
+
+  function handleLogin(user) {
+    setUser(user);
+  }
 
   useEffect(() => {
-    const checkSession = () => {
-      fetch("http://127.0.0.1:5555/check_session", {
-        method: "GET",
-      })
-        .then((response) => {
-          if (response.ok) {
-            response.json().then((data) => {
-              setUser(data);
-            });
-          } else {
-            setUser(null);
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    };
+    fetch("/check_session").then((r) => {
+      if (r.ok) {
+        r.json().then((user) => setUser(user));
+      }
+    });
+  }, []);
 
-    checkSession();
-  }, [setUser]);
-
-  // function onLogout() {
-  //   setUser(null);
-  // }
+  function onLogout() {
+    setUser(null);
+  }
 
   const darkTheme = createTheme({
     palette: {
-      mode:mode
+      mode: mode
     },
   });
 
   return (
     <div className="App">
       <ThemeProvider theme={darkTheme}>
-        <Box  bgcolor={"background.default"} color = {"text.primary"}>
-        <UserProvider value={{ user, setUser }}>
+        <Box bgcolor={"background.default"} color={"text.primary"}>
           {user ? <NavBar /> : null}
-          <Stack  direction="row" justifyContent="space-evenly" spacing={2} >
-          {user ? <Sidebar mode={mode} setMode = {setMode}/> : null}
+          <Stack direction="row" justifyContent="space-evenly" spacing={2}>
+            {user ? <Sidebar mode={mode} setMode={setMode} /> : null}
           </Stack>
           <Routes>
-            {/* <Route index element={<Root user={user} />} /> */}
-            <Route path="/login" element={user ? <Navigate to="/profile" replace /> : <Login />} />
+            <Route
+              path="/login"
+              element={
+                user ? (
+                  <Navigate to="/profile" replace />
+                ) : (
+                  <Login handleLogin={handleLogin} user={user} />
+                )
+              }
+            />
             <Route path="/signup" element={<Signup />} />
-            <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/profile" element={<ProfilePage user={user} setUser={setUser} />} />
             <Route path="/communities" element={<CommunityPage />} />
             <Route path="/" element={<HomePage />} />
           </Routes>
-        </UserProvider>
         </Box>
       </ThemeProvider>
     </div>
