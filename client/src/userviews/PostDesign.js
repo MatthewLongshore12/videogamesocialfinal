@@ -7,12 +7,9 @@ import { red } from '@mui/material/colors';
 import ScreenShareIcon from '@mui/icons-material/ScreenShare';
 
 const PostDesign = () => {
-
-  // Define state to hold data retrieved from API
   const [postsData, setPostsData] = useState([])
   const [usersData, setUsersData] = useState([])
 
-  // Fetch data from API when component mounts
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -88,6 +85,7 @@ const PostDesign = () => {
                   checkedIcon={<ScreenShareIcon />}
                 />
               </IconButton> */}
+              {/* THIS IS A PLACEHOLDER TO EXPAND TO COMMENTS PROBABLY */}
               <ExpandMore
                 //  expand={expanded}
                 //  onClick={handleExpandClick}

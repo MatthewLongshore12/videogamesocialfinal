@@ -68,14 +68,8 @@ class Login(Resource):
     
 class Logout(Resource):
    def delete(self):
-        # Check if the user is logged in
-        if 'user_id' not in session:
-            return {'message': 'You are not logged in'}, 401
-
-        # Clear the session
-        session.clear()
-
-        return {'message': 'User logged out successfully'}, 200
+        session['user_id'] = None
+        return {}, 204
 
 class CheckSession(Resource):
 

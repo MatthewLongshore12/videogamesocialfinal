@@ -54,7 +54,6 @@ const CommPost = () => {
       .catch((error) => console.error(error));
   };
 
-  // fetch communities on mount
   useEffect(() => {
     fetch("http://127.0.0.1:5555/communities")
       .then((response) => response.json())

@@ -10,6 +10,8 @@ const StyledToolbar = styled(Toolbar)({
   justifyContent : "space-between"
 })
 
+
+// SEARCH BAR FOR NAV, GOING TO KEEP HERE BECAUSE I ALREADY DESIGNED IT REGARDLESS IF I WANT TO PUT IT SOMEWHERE ELSE
 const Search = styled("div")(({theme})=>({
   backgroundColor:"white",
   padding:"0 10px",
@@ -40,16 +42,19 @@ const UserBox = styled(Box)(({theme})=>({
 }))
 
 
-function NavBar({ onLogout }) {
+function NavBar({ handleLogout }) {
     const { user, setUser } = useContext(UserContext);
     const [open,setOpen] = useState(false)
+    const [anchorEl, setAnchorEl] = useState(null);
 
     const handleClick = (event) => {
       setOpen(true)
-     }
+      setAnchorEl(event.currentTarget);
+    };
      const handleClose = () => {
-       setOpen(false)
-     }
+      setOpen(false)
+      setAnchorEl(null);
+    };
   
   
     return (
@@ -61,9 +66,9 @@ function NavBar({ onLogout }) {
       <PetsIcon variant='h6' sx={{display:{xs:"block",sm:"none"}}}>
           </PetsIcon>
 
-{/* Icons */}
-{/* THIS IS MAJOR STRETCH GOALS PROB WILL NOT GET TO BUT MAYBE CREATED AND IM GOING TO LEAVE THEM HERE JUST IN CASE */}
-<Icons  onClick={handleClick}>
+        {/* Icons */}
+        {/* THIS IS MAJOR STRETCH GOALS PROB WILL NOT GET TO BUT MAYBE CREATED AND IM GOING TO LEAVE THEM HERE JUST IN CASE */}
+        <Icons  onClick={handleClick}>
         <Badge badgeContent={0} color="error">
           <Mail />
         </Badge>
@@ -71,25 +76,27 @@ function NavBar({ onLogout }) {
           <Notifications />
         </Badge>
         <Avatar
+        src={user.profile_picture}
           sx={{ width: 30, height: 30 }}
           // onClick={(e) => setOpen(true)}
         />
       </Icons>
 
-  {/* User box for small size  */}
-  <UserBox onClick={handleClick}>
-  <Avatar alt="Remy Sharp" src="https://staticc.sportskeeda.com/editor/2023/04/8e02f-16828176963131-1920.jpg?w=840" />
-  <Typography>Mobile</Typography>  
-  </UserBox>
-     
-    </StyledToolbar>
-{/* menu */}
-<Menu
+      {/* User box for mobile  */}
+      <UserBox >
+      <Avatar alt="Remy Sharp" src="https://staticc.sportskeeda.com/editor/2023/04/8e02f-16828176963131-1920.jpg?w=840" />
+      <Typography>Mobile</Typography>  
+      </UserBox>
+        
+        </StyledToolbar>
+      {/* menu */}
+      <Menu
+      // CHAT GPT SAID TO ADD THIS KIND OF STUFF TO TAKE AWAY ERROR, STUFF STILL WORK SO I FINISH LATER
       // id="demo-positioned-menu"
       // aria-labelledby="demo-positioned-button"
-      // anchorEl={anchorEl}
-      open={open}
-      onClose={handleClose}
+      anchorEl={anchorEl}
+      // open={open}
+      // onClose={handleClose}
       anchorOrigin={{
         vertical: 'top',
         horizontal: 'right',
@@ -100,8 +107,9 @@ function NavBar({ onLogout }) {
       }}
     >
       {/* <MenuItem onClick={handleClose}>Profile</MenuItem>
-      <MenuItem onClick={handleClose}>My account</MenuItem>
-      <MenuItem onClick={handleLogout}>Logout</MenuItem> */}
+      <MenuItem onClick={handleClose}>My account</MenuItem> */}
+      {/* LOGOUT NOT WORKING WILLL MAYBE FIX LATER */}
+      {/* <MenuItem onClick={handleLogout}>Logout</MenuItem> */}
     </Menu>
 
   </AppBar>

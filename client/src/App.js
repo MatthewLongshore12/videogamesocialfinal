@@ -27,9 +27,14 @@ function App() {
     });
   }, []);
 
-  function onLogout() {
-    setUser(null);
-  }
+
+  const handleLogout = () => {
+    fetch("/logout", {
+      method: "DELETE",
+    }).then(() => {
+      setUser(null)
+    });
+  };
 
   const darkTheme = createTheme({
     palette: {
@@ -41,9 +46,9 @@ function App() {
     <div className="App">
       <ThemeProvider theme={darkTheme}>
         <Box bgcolor={"background.default"} color={"text.primary"}>
-          {user ? <NavBar /> : null}
+          {/* {user ? <NavBar /> : null} */}
           <Stack direction="row" justifyContent="space-evenly" spacing={2}>
-            {user ? <Sidebar mode={mode} setMode={setMode} /> : null}
+            {/* {user ? <Sidebar mode={mode} setMode={setMode} /> : null} */}
           </Stack>
           <Routes>
             <Route
@@ -57,8 +62,9 @@ function App() {
               }
             />
             <Route path="/signup" element={<Signup />} />
-            <Route path="/profile" element={<ProfilePage user={user} setUser={setUser} />} />
+            <Route path="/profile" element={<ProfilePage user={user} setUser={setUser} handleLogout={handleLogout}/>} />
             <Route path="/communities" element={<CommunityPage />} />
+            <Route path="navbar" element={<NavBar user={user} handleLogout={handleLogout}/>} />
             <Route path="/" element={<HomePage />} />
           </Routes>
         </Box>

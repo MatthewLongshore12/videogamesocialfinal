@@ -9,7 +9,7 @@ from config import db, bcrypt
 class User(db.Model, SerializerMixin):
     __tablename__ = 'users'
 
-    serialize_rules = ('-posts', '-communities', '-_password_hash')
+    serialize_rules = ('-posts', 'communities', '-_password_hash')
 
     id = db.Column(db.Integer, primary_key=True)
     # Create validations so someone can't have the same username!

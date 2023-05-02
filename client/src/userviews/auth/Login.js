@@ -21,7 +21,7 @@ function Login({handleLogin}) {
           body: JSON.stringify({ email, password }),
         }).then((r) => {
             if (r.ok) {
-              r.json().then((user) => handleLogin(user)); // Use handleLogin to update the user state
+              r.json().then((user) => handleLogin(user))
               navigate("/profile");
             } else {
               r.json().then((err) => {

@@ -53,7 +53,6 @@ const MakePost = () => {
       .catch((error) => console.error(error));
   };
 
-  // fetch posts on mount
   useEffect(() => {
     fetch("http://127.0.0.1:5555/posts")
       .then((response) => response.json())
@@ -137,9 +136,6 @@ const MakePost = () => {
       sx={{ mt: 3 }}
     >
       <Button type="submit">Post</Button>
-      <Button sx={{ width: "100px" }}>
-        <DateRange />
-      </Button>
     </ButtonGroup>
   </form>
 </Box>
