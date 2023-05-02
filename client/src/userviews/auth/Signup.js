@@ -33,6 +33,9 @@ function Signup({ onLogin, setUser }) {
         dob: yup
         .string()
         .max(new Date(Date.now() - 567648000000), "You must be at least 18 years")
+        .required('required'),
+        profile_picture: yup
+        .string()
         .required('required')
     })
 
@@ -43,6 +46,7 @@ function Signup({ onLogin, setUser }) {
         first_name: "",
         last_name: "",
         dob: "",
+        profile_picture: ""
         },
         validationSchema: formSchema,
         onSubmit: (values) => {
@@ -139,6 +143,16 @@ function Signup({ onLogin, setUser }) {
                 onChange={formik.handleChange}
                 />
                 <p style={{ color: "red" }}> {formik.errors.dob}</p>
+
+                <label htmlFor="profile_picture">Profile Picture</label>
+                <input
+                type="text"
+                name="profile_picture"
+                id="profile_picture"
+                // value={formik.values.profile_picture}
+                onChange={formik.handleChange}
+                />
+                <p style={{ color: "red" }}> {formik.errors.profile_picture}</p>
                 <div>
                     <button type="submit">Submit</button>
                 </div>

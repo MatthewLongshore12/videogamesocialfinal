@@ -2,7 +2,7 @@ import { Card } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import { ExpandMore, Favorite, FavoriteBorder } from '@mui/icons-material';
-import { Avatar, CardActions, CardContent, CardHeader, CardMedia, Checkbox, Collapse, IconButton, Typography } from '@mui/material';
+import { Box, Avatar, CardActions, CardContent, CardHeader, CardMedia, Checkbox, Collapse, IconButton, Typography } from '@mui/material';
 import { red } from '@mui/material/colors';
 import ScreenShareIcon from '@mui/icons-material/ScreenShare';
 
@@ -49,16 +49,22 @@ const PostDesign = () => {
         return (
           <Card sx={{ margin: 5 }} key={item.id}>
             <CardHeader
-              // avatar={
-              //   <Avatar
-              //     src={user.avatar}
-              //     sx={{ bgcolor: red[500] }}
-              //     aria-label="recipe"
-              //   ></Avatar>
-              // }
-              title={item.caption}
-              subheader={`"${item.date_posted}"`}
-            />
+            avatar={
+              <Box
+                sx={{
+                  display: 'inline-block',
+                  width: '32px',
+                  height: '32px',
+                  backgroundImage: user && `url(${user.profile_picture})`,
+                  backgroundSize: 'cover',
+                  borderRadius: '50%',
+                  marginRight: '8px',
+                }}
+              />
+            }
+            title={item.caption}
+            subheader={`"${item.date_posted}"`}
+          />
             <CardMedia component="img" image={item.image} />
   
             <CardContent>

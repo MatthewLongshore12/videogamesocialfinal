@@ -1,8 +1,8 @@
-"""redid models a tiny bit
+"""new models with images
 
-Revision ID: a0903f24eef6
+Revision ID: 32b0f6a43f58
 Revises: 
-Create Date: 2023-04-28 09:34:33.454898
+Create Date: 2023-05-01 22:17:14.451927
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'a0903f24eef6'
+revision = '32b0f6a43f58'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -23,6 +23,7 @@ def upgrade():
     sa.Column('name', sa.String(length=100), nullable=False),
     sa.Column('description', sa.Text(), nullable=False),
     sa.Column('video_game', sa.String(length=100), nullable=False),
+    sa.Column('image', sa.String(), nullable=False),
     sa.Column('date_posted', sa.DateTime(), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
@@ -34,6 +35,7 @@ def upgrade():
     sa.Column('first_name', sa.String(), nullable=False),
     sa.Column('last_name', sa.String(), nullable=False),
     sa.Column('dob', sa.String(), nullable=False),
+    sa.Column('profile_picture', sa.String(), nullable=False),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('email'),
     sa.UniqueConstraint('username')
@@ -44,7 +46,7 @@ def upgrade():
     sa.Column('caption', sa.Text(), nullable=False),
     sa.Column('date_posted', sa.DateTime(), nullable=False),
     sa.Column('user_id', sa.Integer(), nullable=False),
-    sa.Column('community_id', sa.Integer(), nullable=False),
+    sa.Column('community_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['community_id'], ['communities.id'], name=op.f('fk_posts_community_id_communities')),
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], name=op.f('fk_posts_user_id_users')),
     sa.PrimaryKeyConstraint('id')

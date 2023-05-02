@@ -35,11 +35,11 @@ const CommunityDesign = () => {
         <Card sx={{ maxWidth: 345 }}>
         <CardActionArea>
             {/* FOR WHEN I ADD IMAGE TO COMMUNITY */}
-            {/* <CardMedia
+            <CardMedia
             component="img"
             height="140"
-            image="{item.comm_image}"
-            /> */}
+            image={item.image}
+            />
             <CardContent>
             <Typography gutterBottom variant="h5" component="div">
                 {item.name}

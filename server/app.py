@@ -27,6 +27,7 @@ class SignUp(Resource):
         first_name = request.json['first_name']
         last_name = request.json['last_name']
         dob = request.json['dob']
+        profile_picture = request.json['profile_picture']
 
         user_exists = User.query.filter(User.username == username).first() is not None
 
@@ -40,8 +41,8 @@ class SignUp(Resource):
             _password_hash=hashed_password,
             first_name=first_name,
             last_name=last_name,
-            dob=dob
-
+            dob=dob,
+            profile_picture=profile_picture
         )
         db.session.add(new_user)
         db.session.commit()
@@ -106,6 +107,7 @@ class Users(Resource):
             first_name=data['first_name'],
             last_name=data['last_name'],
             dob=data['dob'],
+            profile_picture=data['profile_picture']
         )
         db.session.add(new_User)
         db.session.commit()
@@ -154,7 +156,8 @@ class Communities(Resource):
         new_community = Community(
             name=data['name'],
             description=data['description'],
-            video_game=data['video_game']
+            video_game=data['video_game'],
+            image=data['image']
         )
         db.session.add(new_community)
         db.session.commit()

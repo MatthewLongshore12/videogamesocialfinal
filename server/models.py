@@ -21,6 +21,7 @@ class User(db.Model, SerializerMixin):
     last_name = db.Column(db.String, nullable=False)
     # Create validations so someone has to be 18 years or older!
     dob = db.Column(db.String, nullable=False)
+    profile_picture = db.Column(db.String, nullable=False)
 
     posts = db.relationship('Post', backref='user')
     communities = association_proxy('posts', 'community')
@@ -69,6 +70,7 @@ class Community(db.Model, SerializerMixin):
     name = db.Column(db.String(100), nullable=False)
     description = db.Column(db.Text, nullable=False)
     video_game = db.Column(db.String(100), nullable=False)
+    image = db.Column(db.String, nullable=False)
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
     posts = db.relationship('Post', backref='community')

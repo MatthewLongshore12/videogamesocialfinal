@@ -23,10 +23,10 @@ const UserBox = styled(Box)({
 
 const CommPost = () => {
   const [open ,setOpen] = useState(false)
-//   const [image, setImage] = useState("");
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  const [vg, setVG] = useState([]);
+  const [vg, setVG] = useState("");
+  const [image, setImage] = useState("")
   const [comms, setComms] = useState([])
   const { user, setUser } = useContext(UserContext);
 
@@ -38,6 +38,7 @@ const CommPost = () => {
       name,
       description,
       video_game: vg,
+      image
     }
     fetch("http://127.0.0.1:5555/communities", {
       method: "POST",
@@ -84,7 +85,7 @@ const CommPost = () => {
   aria-labelledby="modal-modal-title"
   aria-describedby="modal-modal-description"
 >
-<Box width={400} height={400} bgcolor="white" p={3} borderRadius={5}>
+<Box width={400} height={400} bgcolor="white" p={3} borderRadius={5} sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
   <Typography
     id="modal-modal-description"
     textAlign="center"
@@ -130,6 +131,16 @@ const CommPost = () => {
       value={vg}
       onChange={(e) => setVG(e.target.value)}
     />
+    <TextField
+      sx={{ width: "100%", mb: 2, border: '1px solid black', borderRadius: 1 }}
+      multiline
+      inputProps={{ style: { color: "black" } }}
+      id="image"
+      label="Image"
+      variant="outlined"
+      value={image}
+      onChange={(e) => setImage(e.target.value)}
+    />
     <ButtonGroup
       fullWidth
       variant="contained"
@@ -137,9 +148,6 @@ const CommPost = () => {
       sx={{ mt: 3 }}
     >
       <Button type="submit">Post</Button>
-      <Button sx={{ width: "100px" }}>
-        <DateRange />
-      </Button>
     </ButtonGroup>
   </form>
 </Box>
