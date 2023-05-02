@@ -31,9 +31,9 @@ function ProfileInfo() {
           <div className="rightbarInfoItem">
             <span className="rightbarInfoKey">Communities:</span>
             <span className="rightbarInfoValue">
-            {user.communities.map((community) => (
+            {/* {user.communities.map((community) => (
                 <span key={community.id}>{community.name}</span>
-            ))}
+            ))} */}
             </span>
           </div>
         </div>

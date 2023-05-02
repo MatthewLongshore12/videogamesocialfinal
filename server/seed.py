@@ -9,21 +9,21 @@ if __name__ == '__main__':
         
         print("Starting seed...")
         # create some users
-        matthew = User(username='juiced', email='juiced@gmail.com', first_name='Matthew', last_name='Longshore', dob='1/22/2001', profile_picture='https://stickerswiki.ams3.cdn.digitaloceanspaces.com/MY_SASUKE_MANGA_STIKERS/2436536.512.webp')
+        matthew = User(username='juiced', email='juiced@gmail.com', first_name='Matthew', last_name='Longshore', dob='1/22/2001', profile_picture='https://stickerswiki.ams3.cdn.digitaloceanspaces.com/MY_SASUKE_MANGA_STIKERS/2436536.512.webp', cover_picture='https://static1.thegamerimages.com/wordpress/wp-content/uploads/2019/01/naruto-epic-wall.jpg', bio='Here to poop')
         matthew.password_hash = 'Matthew1-'
         
-        sarra = User(username='Sarra13', email='Sarra13@icloud.com', first_name='Sarra', last_name='Leila', dob='2/13/2003', profile_picture='https://d.newsweek.com/en/full/1920025/cat-its-mouth-open.jpg')
+        sarra = User(username='Sarra13', email='Sarra13@icloud.com', first_name='Sarra', last_name='Leila', dob='2/13/2003', profile_picture='https://d.newsweek.com/en/full/1920025/cat-its-mouth-open.jpg', cover_picture='https://i.pinimg.com/originals/8a/b4/81/8ab4818d46ba0c69d2e31ebad92f04c4.jpg', bio='I love cats! I vote for cats to take over the white house')
         sarra.password_hash = 'Teddyeats1-'
         
-        tony = User(username='tlreds', email='tlreds@att.net', first_name='Tony', last_name='Longshore', dob='3/3/1959', profile_picture='https://alumni.uga.edu/wp-content/uploads/10_Uga_X.jpg')
+        tony = User(username='tlreds', email='tlreds@att.net', first_name='Tony', last_name='Longshore', dob='3/3/1959', profile_picture='https://alumni.uga.edu/wp-content/uploads/10_Uga_X.jpg', cover_picture='https://cdn.wallpapersafari.com/5/57/xKcgZA.jpg', bio='Go dawgs')
         tony.password_hash = 'Baseball1-'
         
         db.session.add_all([matthew, sarra, tony])
         db.session.commit()
 
         # create some communities
-        dark_souls = Community(name='Dark Souls', description='A community for Dark Soul nerds', video_game='Dark Souls Series', date_posted=datetime.utcnow(), image='https://static.bandainamcoent.eu/high/dark-souls/dark-souls-hd/00-page-setup/ds-hd_game_thumb_408x314.jpg')
-        madden = Community(name='Madden', description='A community for people that break their controllers over a sports game', video_game='Madden', date_posted=datetime.utcnow(), image='https://a.espncdn.com/i/eticket/20100803/photos/etick_maddenretro1989-90_800.jpg')
+        dark_souls = Community(name='Dark Souls', description='A community for Dark Soul nerds', video_game='Dark Souls Series', date_posted=datetime.utcnow(), image='https://static.bandainamcoent.eu/high/dark-souls/dark-souls-hd/00-page-setup/ds-hd_game_thumb_408x314.jpg', creator=matthew)
+        madden = Community(name='Madden', description='A community for people that break their controllers over a sports game', video_game='Madden', date_posted=datetime.utcnow(), image='https://a.espncdn.com/i/eticket/20100803/photos/etick_maddenretro1989-90_800.jpg', creator=tony)
         db.session.add_all([dark_souls, madden])
         db.session.commit()
 

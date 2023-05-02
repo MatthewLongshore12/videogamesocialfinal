@@ -27,7 +27,7 @@ function ProfilePage({handleLogout}) {
               <img
                 className="profileCoverImg"
                 src={
-                  user.profile_picture
+                  user.cover_picture
                 }
                 alt="profilepic"
               />
