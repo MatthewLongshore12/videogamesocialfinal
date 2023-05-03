@@ -4,7 +4,7 @@ import { UserContext } from "../statekeeper/state";
 
 
 function EditPost({ isOpen, handleClose, post, onPostUpdate }) {
-    const { user, setUser } = useContext(UserContext);
+    const { user } = useContext(UserContext);
 
     const [caption, setCaption] = useState(user.caption);
     const [image, setImage] = useState(user.image);
@@ -33,7 +33,7 @@ function EditPost({ isOpen, handleClose, post, onPostUpdate }) {
         });
         const updatedPost = await response.json();
         handleClose();
-        onPostUpdate(updatedPost); // invoke the callback function with the updated post data
+        onPostUpdate(updatedPost)
       } catch (error) {
         console.error(error);
       }

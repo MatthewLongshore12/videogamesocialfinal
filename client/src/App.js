@@ -10,6 +10,7 @@ import Signup from './userviews/auth/Signup';
 import Sidebar from './userviews/Sidebar';
 import HomePage from './userviews/HomePage'
 import CommunityPage from './userviews/CommunityPage';
+import EditProfile from './components/EditProfile';
 
 function App() {
   const { user, setUser } = useContext(UserContext);
@@ -65,6 +66,7 @@ function App() {
             <Route path="/profile" element={<ProfilePage user={user} setUser={setUser} handleLogout={handleLogout}/>} />
             <Route path="/communities" element={<CommunityPage />} />
             <Route path="navbar" element={<NavBar user={user} handleLogout={handleLogout}/>} />
+            <Route path="/profile/edit" element={<EditProfile user={user}/>} /> 
             <Route path="/" element={<HomePage />} />
           </Routes>
         </Box>

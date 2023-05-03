@@ -1,15 +1,16 @@
 import React, { useContext } from "react";
 import { UserContext } from "../statekeeper/state";
-import { Navigate } from "react-router-dom";
 import "../stylesheets/profile.css"
 import NavBar from "./NavBar";
 import Sidebar from "./Sidebar";
 import ProfileInfo from "../components/ProfileInfo";
 import UserPosts from "../components/UserPosts";
 import MakePost from "../userviews/MakePost"
+import { Navigate, useNavigate } from "react-router-dom";
 
 function ProfilePage({handleLogout}) {
   const { user, setUser } = useContext(UserContext);
+  const navigate = useNavigate();
 
   if (!user) {
     return <Navigate replace to="/login" />;
@@ -51,6 +52,7 @@ function ProfilePage({handleLogout}) {
             <UserPosts />
             <ProfileInfo user={user} />
           </div>
+          <button onClick={() => navigate('/profile/edit')}>Edit Profile</button>
           <button onClick={handleLogout}>Logout</button>
         </div>
       </div>
