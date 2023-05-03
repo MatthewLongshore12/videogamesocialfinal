@@ -31,6 +31,15 @@ function UserPosts() {
     fetchData();
   }, []);
 
+  function handlePostUpdate(updatedPost) {
+    setPostsData(prevPostsData => {
+      const updatedPostsData = [...prevPostsData];
+      const index = updatedPostsData.findIndex(post => post.id === updatedPost.id);
+      updatedPostsData[index] = updatedPost;
+      return updatedPostsData;
+    });
+  }
+
   // Filter to only show the logged in user's posts
   const filteredPostsData = postsData.filter(post => post.user_id === user.id);
 
@@ -99,7 +108,7 @@ function UserPosts() {
               </Card>
             );
           })}
-          <EditPost isOpen={isModalOpen} handleClose={() => setIsModalOpen(false)} post={currentPost} />
+          <EditPost isOpen={isModalOpen} handleClose={() => setIsModalOpen(false)} post={currentPost} onPostUpdate={handlePostUpdate} />
         </>
       </div>
     </div>

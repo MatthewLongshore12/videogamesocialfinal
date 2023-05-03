@@ -3,43 +3,41 @@ import React, { useContext, useState } from "react";
 import { UserContext } from "../statekeeper/state";
 
 
-function EditPost({ isOpen, handleClose, post }) {
-    const { user } = useContext(UserContext);
+function EditPost({ isOpen, handleClose, post, onPostUpdate }) {
+    const { user, setUser } = useContext(UserContext);
 
-    const [editedCaption, setEditedCaption] = useState(user.caption);
-    const [editedImage, setEditedImage] = useState(user.image)
+    const [caption, setCaption] = useState(user.caption);
+    const [image, setImage] = useState(user.image);
   
     const handleCaptionChange = (event) => {
-        setEditedCaption(event.target.value);
+        setCaption(event.target.value);
     }
     const handleImageChange = (event) => {
-        setEditedImage(event.target.value);
+        setImage(event.target.value);
     }
     
   
-    const handleSaveClick = () => {
-        const data = {
-          caption: editedCaption,
-          image: editedImage
-        };
-        fetch(`http://127.0.0.1:5555/posts/${post.id}`, {
-          method: 'PATCH',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(data)
-        })
-          .then(response => response.json())
-          .then(data => {
-            console.log(data); // log the response data to the console
-            setEditedCaption(data.caption);
-            setEditedImage(data.image);
-            handleClose();
-          })
-          .catch((error) => {
-            console.error('Error:', error);
-          });
+    async function handleSubmit(event) {
+      event.preventDefault();
+      const data = {
+        caption: caption,
+        image: image,
       };
+      try {
+        const response = await fetch(`http://127.0.0.1:5555/posts/${post.id}`, {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        });
+        const updatedPost = await response.json();
+        handleClose();
+        onPostUpdate(updatedPost); // invoke the callback function with the updated post data
+      } catch (error) {
+        console.error(error);
+      }
+    }
     
 
     return (
@@ -47,12 +45,12 @@ function EditPost({ isOpen, handleClose, post }) {
         <DialogTitle>Edit Post</DialogTitle>
         <DialogContent>
             <img src={user.image} alt={user.caption} />
-            <TextField label="Image" value={editedImage} onChange={handleImageChange} />
-            <TextField label="Caption" value={editedCaption} onChange={handleCaptionChange} />
+            <TextField label="Image" onChange={handleImageChange} />
+            <TextField label="Caption" onChange={handleCaptionChange} />
         </DialogContent>
         <DialogActions>
             <Button onClick={handleClose}>Cancel</Button>
-            <Button onClick={handleSaveClick} color="primary">Save</Button>
+            <Button onClick={handleSubmit} color="primary">Save</Button>
         </DialogActions>
         </Dialog>
   );
