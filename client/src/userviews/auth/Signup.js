@@ -36,7 +36,11 @@ function Signup({ onLogin, setUser }) {
         .required('required'),
         profile_picture: yup
         .string()
-        .required('required')
+        .required('required'),
+        cover_picture: yup
+        .string(),
+        bio: yup
+        .string()
     })
 
     const formik = useFormik({
@@ -46,7 +50,9 @@ function Signup({ onLogin, setUser }) {
         first_name: "",
         last_name: "",
         dob: "",
-        profile_picture: ""
+        profile_picture: "",
+        cover_picture: "",
+        bio: ""
         },
         validationSchema: formSchema,
         onSubmit: (values) => {
@@ -153,6 +159,27 @@ function Signup({ onLogin, setUser }) {
                 onChange={formik.handleChange}
                 />
                 <p style={{ color: "red" }}> {formik.errors.profile_picture}</p>
+
+                <label htmlFor="cover_picture">Cover Photo</label>
+                <input
+                type="text"
+                name="cover_picture"
+                id="cover_picture"
+                // value={formik.values.cover_picture}
+                onChange={formik.handleChange}
+                />
+                <p style={{ color: "red" }}> {formik.errors.cover_picture}</p>
+
+                <label htmlFor="bio">Bio</label>
+                <input
+                type="text"
+                name="bio"
+                id="bio"
+                // value={formik.values.bio}
+                onChange={formik.handleChange}
+                />
+                <p style={{ color: "red" }}> {formik.errors.bio}</p>
+
                 <div>
                     <button type="submit">Submit</button>
                 </div>

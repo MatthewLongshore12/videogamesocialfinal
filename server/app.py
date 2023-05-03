@@ -28,6 +28,8 @@ class SignUp(Resource):
         last_name = request.json['last_name']
         dob = request.json['dob']
         profile_picture = request.json['profile_picture']
+        cover_picture = request.json['cover_picture']
+        bio = request.json['bio']
 
         user_exists = User.query.filter(User.username == username).first() is not None
 
@@ -42,7 +44,9 @@ class SignUp(Resource):
             first_name=first_name,
             last_name=last_name,
             dob=dob,
-            profile_picture=profile_picture
+            profile_picture=profile_picture,
+            cover_picture=cover_picture,
+            bio=bio
         )
         db.session.add(new_user)
         db.session.commit()

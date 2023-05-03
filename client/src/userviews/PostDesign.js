@@ -60,13 +60,13 @@ const PostDesign = () => {
               />
             }
             title={item.caption}
-            subheader={`"${item.date_posted}"`}
+            subheader={`"${user ? user.username : ''}"`}
           />
             <CardMedia component="img" image={item.image} />
   
             <CardContent>
               <Typography variant="body2" color="text.secondary">
-                {user ? user.username : ''}
+                {item.date_posted}
               </Typography>
             </CardContent>
   
