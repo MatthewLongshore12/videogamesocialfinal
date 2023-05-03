@@ -2,19 +2,29 @@ import React, { useContext, useEffect, useState } from "react";
 import { UserContext } from "../statekeeper/state";
 import "../stylesheets/userposts.css"
 import { ExpandMore, Favorite, FavoriteBorder } from '@mui/icons-material';
-import { Box, Avatar, CardActions, CardContent, CardHeader, CardMedia, Checkbox, Collapse, IconButton, Typography } from '@mui/material';
+import { Box, Avatar, CardActions, CardContent, CardHeader, CardMedia, Checkbox, Collapse, IconButton, Typography, CardActionArea } from '@mui/material';
 import { Card } from '@mui/material';
 import EditPost from "./EditPost";
+import EditComm from "./EditComm";
 
 function UserPosts() {
   const { user } = useContext(UserContext);
   const [postsData, setPostsData] = useState([]);
+  const [commsData, setCommsData] = useState([])
   const [usersData, setUsersData] = useState([]);
   const [currentPost, setCurrentPost] = useState(null);
+  const [currentComm, setCurrentComm] = useState(null)
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [showPosts, setShowPosts] = useState(true);
+  const [showCommunities, setShowCommunities] = useState(false);
 
-  function handleEditClick(post) {
+  function handleEditPostClick(post) {
     setCurrentPost(post);
+    setIsModalOpen(true);
+  }
+
+  function handleEditCommClick(community) {
+    setCurrentComm(community);
     setIsModalOpen(true);
   }
 
@@ -31,6 +41,19 @@ function UserPosts() {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('http://127.0.0.1:5555/communities');
+        const data = await response.json();
+        setCommsData(data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchData();
+  }, []);
+
   function handlePostUpdate(updatedPost) {
     setPostsData(prevPostsData => {
       const updatedPostsData = [...prevPostsData];
@@ -40,14 +63,38 @@ function UserPosts() {
     });
   }
 
+  function handleCommUpdate(updatedComm) {
+    setCommsData(prevCommsData => {
+      const updatedCommsData = [...prevCommsData];
+      const index = updatedCommsData.findIndex(community => community.id === updatedComm.id);
+      updatedCommsData[index] = updatedComm;
+      return updatedCommsData;
+    });
+  }
+
+  function handleShowPostsClick() {
+    setShowPosts(true);
+    setShowCommunities(false);
+  }
+  
+  function handleShowCommunitiesClick() {
+    setShowPosts(false);
+    setShowCommunities(true);
+  }
+
   // Filter to only show the logged in user's posts
   const filteredPostsData = postsData.filter(post => post.user_id === user.id);
 
+  const filteredCommunitiesData = commsData.filter(community => community.creator_id === user.id);
+
   return (
     <div className="feed">
-      {/* GOING TO BE BUTTONS THAT SHOW EITHER POSTS OR OWNED COMMUNITIES */}
-      <h1>PLACEHOLDER</h1>
-      <div className="feedWrapper">
+    <div className="feed-header">
+      <button onClick={handleShowPostsClick}>My Posts</button>
+      <button onClick={handleShowCommunitiesClick}>My Communities</button>
+    </div>
+    <div className="feedWrapper">
+      { showPosts && (
         <>
           {/* card  */}
           {filteredPostsData.map((item) => {
@@ -103,13 +150,47 @@ function UserPosts() {
                     >
                     {/* <ExpandMoreIcon /> */}
                   </ExpandMore>
-                  <button onClick={() => handleEditClick(item)}>EDIT</button>
+                  <button onClick={() => handleEditPostClick(item)}>EDIT</button>
                 </CardActions>
               </Card>
             );
           })}
           <EditPost isOpen={isModalOpen} handleClose={() => setIsModalOpen(false)} post={currentPost} onPostUpdate={handlePostUpdate} />
         </>
+      )}
+      { showCommunities && (
+        <>
+        {/* card  */}
+        {filteredCommunitiesData.map((item) => {
+          // const user = usersData.find((user) => user.id === item.user_id)
+          return (
+            <Card sx={{ maxWidth: 345 }}>
+            <CardActionArea>
+            {/* FOR WHEN I ADD IMAGE TO COMMUNITY */}
+            <CardMedia
+            component="img"
+            height="140"
+            image={item.image}
+            />
+            <CardContent>
+            <Typography gutterBottom variant="h5" component="div">
+                {item.name}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+                {item.description}
+            </Typography>
+            <Typography variant="body3" color="text.secondary">
+                {item.video_game}
+            </Typography>
+            </CardContent>
+            <button onClick={() => handleEditCommClick(item)}>EDIT</button>
+        </CardActionArea>
+        </Card>
+          );
+        })}
+      <EditComm isOpen={isModalOpen} handleClose={() => setIsModalOpen(false)} community={currentComm} onCommUpdate={handleCommUpdate} />
+      </>
+      )}
       </div>
     </div>
   )
