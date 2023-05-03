@@ -146,7 +146,8 @@ class Communities(Resource):
             name=data['name'],
             description=data['description'],
             video_game=data['video_game'],
-            image=data['image']
+            image=data['image'],
+            creator_id=data['creator_id']
         )
         db.session.add(new_community)
         db.session.commit()

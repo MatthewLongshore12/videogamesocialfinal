@@ -22,9 +22,9 @@ class User(db.Model, SerializerMixin):
     cover_picture = db.Column(db.String)
     bio = db.Column(db.String)
 
-    posts = db.relationship('Post', backref='user')
+    posts = db.relationship('Post', backref='user', cascade='all, delete-orphan')
     communities = association_proxy('posts', 'community')
-    communities_created = db.relationship('Community', backref='creator')
+    communities_created = db.relationship('Community', backref='creator', cascade='all, delete-orphan')
 
 
     @hybrid_property
@@ -46,7 +46,6 @@ class User(db.Model, SerializerMixin):
     def simple_hash(input):
         return sum(bytearray(input, encoding='utf-8'))
 
-    
 
 class Post(db.Model, SerializerMixin):
     __tablename__ = 'posts'
@@ -59,7 +58,7 @@ class Post(db.Model, SerializerMixin):
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     community_id = db.Column(db.Integer, db.ForeignKey('communities.id'))
-    
+
 
 class Community(db.Model, SerializerMixin):
     __tablename__ = 'communities'
@@ -74,5 +73,5 @@ class Community(db.Model, SerializerMixin):
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     creator_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
-    posts = db.relationship('Post', backref='community')
+    posts = db.relationship('Post', backref='community', cascade='all, delete')
     users = association_proxy('Post', 'user')
