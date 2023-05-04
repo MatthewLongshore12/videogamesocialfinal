@@ -63,6 +63,13 @@ function UserPosts() {
     });
   }
 
+  function handlePostDelete(deletedPostId) {
+    setPostsData(prevPostsData => {
+      const updatedPostsData = prevPostsData.filter(post => post.id !== deletedPostId);
+      return updatedPostsData;
+    });
+  }
+
   function handleCommUpdate(updatedComm) {
     setCommsData(prevCommsData => {
       const updatedCommsData = [...prevCommsData];
@@ -155,7 +162,7 @@ function UserPosts() {
               </Card>
             );
           })}
-          <EditPost isOpen={isModalOpen} handleClose={() => setIsModalOpen(false)} post={currentPost} onPostUpdate={handlePostUpdate} />
+          <EditPost isOpen={isModalOpen} handleClose={() => setIsModalOpen(false)} post={currentPost} onPostUpdate={handlePostUpdate} onPostDelete={handlePostDelete} />
         </>
       )}
       { showCommunities && (

@@ -1,13 +1,16 @@
-import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField } from '@mui/material';
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, IconButton } from '@mui/material';
 import React, { useContext, useState } from "react";
 import { UserContext } from "../statekeeper/state";
+import { Navigate, useNavigate } from "react-router-dom";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 
-function EditPost({ isOpen, handleClose, post, onPostUpdate }) {
+
+function EditPost({ isOpen, handleClose, post, onPostUpdate, onPostDelete }) {
     const { user } = useContext(UserContext);
-
     const [caption, setCaption] = useState(user.caption);
     const [image, setImage] = useState(user.image);
+    const navigate = useNavigate();
   
     const handleCaptionChange = (event) => {
         setCaption(event.target.value);
@@ -38,6 +41,22 @@ function EditPost({ isOpen, handleClose, post, onPostUpdate }) {
         console.error(error);
       }
     }
+
+    function handleDeletePost(e) {
+      e.preventDefault();
+      fetch(`http://127.0.0.1:5555/posts/${post.id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then(() => {
+          handleClose();
+          onPostDelete(post.id);
+          navigate("/profile");
+        })
+        .catch((error) => console.error(error));
+    }
     
 
     return (
@@ -51,6 +70,9 @@ function EditPost({ isOpen, handleClose, post, onPostUpdate }) {
         <DialogActions>
             <Button onClick={handleClose}>Cancel</Button>
             <Button onClick={handleSubmit} color="primary">Save</Button>
+            <IconButton onClick={handleDeletePost}>
+              <DeleteIcon />
+            </IconButton>
         </DialogActions>
         </Dialog>
   );
