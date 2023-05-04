@@ -23,7 +23,7 @@ const HomePage = () => {
                     <PostDesign />
                 </Box>
             </Box>
-            <MakePost />
+            {/* <MakePost /> */}
         </div>
     )
 }

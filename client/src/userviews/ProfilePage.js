@@ -1,4 +1,5 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
+import { Avatar, Button, ButtonGroup, Fab, Modal, TextField, Tooltip, Typography } from '@mui/material'
 import { UserContext } from "../statekeeper/state";
 import "../stylesheets/profile.css"
 import NavBar from "./NavBar";
@@ -10,6 +11,7 @@ import { Navigate, useNavigate } from "react-router-dom";
 
 function ProfilePage({handleLogout}) {
   const { user, setUser } = useContext(UserContext);
+  const [open ,setOpen] = useState(false)
   const navigate = useNavigate();
 
   if (!user) {
@@ -22,7 +24,21 @@ function ProfilePage({handleLogout}) {
       <NavBar />
       <div className="profile">
         <Sidebar />
-        <MakePost />
+        {/* <MakePost /> */}
+        <Tooltip
+          // onClick={(e) => setOpen(true)}
+          onClick={() => navigate('/profile/add')}
+          title="Add"
+          sx={{
+            position: "fixed",
+            bottom: 20,
+            left: { xs: "calc(50% - 25px)", md: 30 },
+          }}
+        >
+          <Fab color="white" aria-label="add">
+            <h1>+</h1>
+          </Fab>
+        </Tooltip>
         <div className="profileRight">
           <div className="profileRightTop">
             <div className="profileCover">
