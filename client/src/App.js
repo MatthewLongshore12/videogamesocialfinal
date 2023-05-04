@@ -12,6 +12,7 @@ import HomePage from './userviews/HomePage'
 import CommunityPage from './userviews/CommunityPage';
 import EditProfile from './components/EditProfile';
 import MakePost from './userviews/MakePost';
+import CommPost from './userviews/CommPost';
 
 function App() {
   const { user, setUser } = useContext(UserContext);
@@ -70,6 +71,7 @@ function App() {
             <Route path="/profile/edit" element={<EditProfile user={user}/>} /> 
             <Route path="/" element={<HomePage />} />
             <Route path="/profile/add" element={<MakePost user={user}/>} />
+            <Route path="/communities/add" element={<CommPost user={user}/>} />
           </Routes>
         </Box>
       </ThemeProvider>
