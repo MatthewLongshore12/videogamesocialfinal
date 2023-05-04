@@ -1,15 +1,18 @@
-import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField } from '@mui/material';
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, IconButton } from '@mui/material';
 import React, { useContext, useState } from "react";
 import { UserContext } from "../statekeeper/state";
+import { Navigate, useNavigate } from "react-router-dom";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 
-function EditComm({ isOpen, handleClose, community, onCommUpdate }) {
+function EditComm({ isOpen, handleClose, community, onCommUpdate, onCommDelete }) {
     const { user } = useContext(UserContext);
-
     const [name, setName] = useState(user.name);
     const [description, setDescription] = useState(user.description);
     const [videogame, setVideoGame] = useState(user.video_game);
     const [image, setImage] = useState(user.image);
+    const navigate = useNavigate();
+
 
   
     const handleNameChange = (event) => {
@@ -49,6 +52,22 @@ function EditComm({ isOpen, handleClose, community, onCommUpdate }) {
         console.error(error);
       }
     }
+
+    function handleDeleteComm(e) {
+      e.preventDefault();
+      fetch(`http://127.0.0.1:5555/communities/${community.id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then(() => {
+          handleClose();
+          onCommDelete(community.id);
+          navigate("/profile");
+        })
+        .catch((error) => console.error(error));
+    }
     
 
     return (
@@ -63,6 +82,9 @@ function EditComm({ isOpen, handleClose, community, onCommUpdate }) {
         <DialogActions>
             <Button onClick={handleClose}>Cancel</Button>
             <Button onClick={handleSubmit} color="primary">Save</Button>
+            <IconButton onClick={handleDeleteComm}>
+              <DeleteIcon />
+            </IconButton>
         </DialogActions>
         </Dialog>
   );
