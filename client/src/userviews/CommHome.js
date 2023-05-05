@@ -3,7 +3,7 @@ import Sidebar from "./Sidebar";
 import { UserContext } from "../statekeeper/state";
 import React, { useContext, useState, useEffect } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import Button from "@mui/material/Button";
 import { Box, Card, Avatar, CardActions, CardContent, CardHeader, CardMedia, Checkbox, Collapse, IconButton, Typography } from '@mui/material';
 import { ExpandMore, Favorite, FavoriteBorder } from '@mui/icons-material';
@@ -101,7 +101,9 @@ function CommHome() {
         { displayUsers && ( 
             <>
             {commUsersData.map((user) => ( 
-                <div key={user.id}>{user.username}</div>
+              <Link to={`/users/${user.id}`} key={user.id}>
+                <div>{user.username}</div>
+              </Link>
             ))}
             </>
         )}

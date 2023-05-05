@@ -135,6 +135,22 @@ class UserByID(Resource):
 
         return make_response({'message': 'The user has been deleted'}, 200)
 
+@app.route('/users/<int:id>/posts')
+def get_posts_for_users(id):
+    user = User.query.filter_by(id=id).first()
+    if not user:
+        return jsonify({'error': 'User not found.'}), 404
+    posts = user.posts
+    return jsonify({'posts': [post.to_dict() for post in posts]})
+
+@app.route('/users/<int:id>/communities')
+def get_comms_for_users(id):
+    user = User.query.filter_by(id=id).first()
+    if not user:
+        return jsonify({'error': 'User not found.'}), 404
+    communities = user.communities
+    return jsonify({'communities': [community.to_dict() for community in communities]})
+
 
 class Communities(Resource):
     def get(self):
