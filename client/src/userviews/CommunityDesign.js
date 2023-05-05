@@ -4,11 +4,15 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { CardActionArea } from '@mui/material';
 import React, { useEffect, useState } from 'react';
+import { Navigate, useNavigate } from 'react-router-dom'
+
 
 
 const CommunityDesign = () => {
 
     const [ commData, setCommData ]= useState([])
+    const navigate = useNavigate();
+
 
 
     useEffect(() => {
@@ -32,9 +36,9 @@ const CommunityDesign = () => {
     {commData.map((item) => {
         return (
 
-        <Card sx={{ maxWidth: 345 }}>
+        <Card sx={{ maxWidth: 345 }}
+        onClick={() => navigate(`/communities/${item.id}/home`)}>
         <CardActionArea>
-            {/* FOR WHEN I ADD IMAGE TO COMMUNITY */}
             <CardMedia
             component="img"
             height="140"

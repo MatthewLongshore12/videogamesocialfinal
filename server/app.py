@@ -184,6 +184,27 @@ class CommunityByID(Resource):
 
         return make_response({'message': 'The community has been deleted'}, 200)
     
+@app.route('/communities/<int:comm_id>/users')
+def get_community_users(comm_id):
+    users = User.query \
+        .join(Post, User.id == Post.user_id) \
+        .filter(Post.community_id == comm_id) \
+        .with_entities(User.username, User.id) \
+        .distinct() \
+        .all()
+
+    users_data = [{'id': user.id, 'username': user.username} for user in users]
+
+    return jsonify(users_data)
+
+@app.route('/communities/<int:id>/posts')
+def get_posts_for_community(id):
+    community = Community.query.filter_by(id=id).first()
+    if not community:
+        return jsonify({'error': 'Community not found.'}), 404
+    posts = community.posts
+    return jsonify({'posts': [post.to_dict() for post in posts]})
+    
 
 
 class Posts(Resource):

@@ -5,8 +5,6 @@ import { UserContext } from '../statekeeper/state'
 import NavBar from './NavBar'
 import Sidebar from './Sidebar'
 import CommunityDesign from './CommunityDesign';
-import CommPost from './CommPost';
-
 
 const CommunityPage = () => {
     const { user, setUser } = useContext( UserContext )
