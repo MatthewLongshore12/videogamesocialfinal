@@ -2,9 +2,8 @@ import NavBar from "./NavBar";
 import Sidebar from "./Sidebar";
 import React, { useContext, useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import UserPosts from "../components/UserPosts";
-import ProfileInfo from "../components/ProfileInfo";
 import OtherUserPosts from "../components/OtherUserPosts";
+import OtherProfileInfo from "../components/OtherProfileInfo";
 
 
 
@@ -57,7 +56,7 @@ function OtherProfile() {
           </div>
           <div className="profileRightBottom">
             <OtherUserPosts userData={userData}/>
-            <ProfileInfo userData={userData} />
+            <OtherProfileInfo userData={userData} />
           </div>
         </div>
       </div>
