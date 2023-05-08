@@ -5,7 +5,7 @@ from flask_migrate import Migrate
 
 
 from config import app, db, api, bcrypt
-from models import User, Community, Post
+from models import User, Community, Post, Comment
 
 # app.secret_key = '\xe5\xa6\x95_\xefg\x1f\x9db`\x1a\x97FN\x87\x8a\xb3<j\xd9B4\xe7'
 
@@ -269,11 +269,38 @@ class PostByID(Resource):
             db.session.rollback()
 
         return make_response({'message': 'The post has been deleted'}, 200)
+    
+class Comments(Resource):
+    def post(self): 
+        data = request.get_json()
+        try: 
+            id = session['user_id']
+
+        except KeyError:
+            return make_response({'error': 'log in '})
+
+        try:
+            new_comment = Comment(
+                user_id = id,
+                video_id = data['video_id'],
+                content = data['content']
+            )
+        except ValueError: 
+            return make_response({'error': '400: Validation error. Please actually insert a comment'})
+        db.session.add(new_comment)
+        db.session.commit()
+
+        latest_comment = Comment.query.order_by(Comment.created_at.desc()).all()
+        new = latest_comment[0]
+
+        return make_response(new.to_dict(), 200)
+
 
 
 
 
         
+api.add_resource(Comments, '/comments', endpoint='comments')
 api.add_resource(Home, '/')
 api.add_resource(SignUp, '/signup', endpoint='signup')
 api.add_resource(Login, '/login', endpoint='login')

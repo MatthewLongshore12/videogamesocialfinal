@@ -25,6 +25,7 @@ class User(db.Model, SerializerMixin):
     posts = db.relationship('Post', backref='user', cascade='all, delete-orphan')
     communities = association_proxy('posts', 'community')
     communities_created = db.relationship('Community', backref='creator', cascade='all, delete-orphan')
+    comments = db.relationship('Comment', backref='user', cascade='all, delete')
 
 
     @hybrid_property
@@ -59,6 +60,8 @@ class Post(db.Model, SerializerMixin):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     community_id = db.Column(db.Integer, db.ForeignKey('communities.id'))
 
+    comments = db.relationship('Comment', backref='post', cascade='all, delete')
+
 
 class Community(db.Model, SerializerMixin):
     __tablename__ = 'communities'
@@ -75,3 +78,14 @@ class Community(db.Model, SerializerMixin):
 
     posts = db.relationship('Post', backref='community', cascade='all, delete')
     users = association_proxy('Post', 'user')
+
+class Comment(db.Model, SerializerMixin):
+    __tablename__ = 'comments'
+
+    serialize_rules = ('-post.user._password_hash', '-user._password_hash')
+
+    id = db.Column(db.Integer, primary_key=True)
+    body = db.Column(db.Text, nullable=False)
+    date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    post_id = db.Column(db.Integer, db.ForeignKey('posts.id'), nullable=False)
