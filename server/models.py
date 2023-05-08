@@ -9,7 +9,7 @@ from config import db, bcrypt
 class User(db.Model, SerializerMixin):
     __tablename__ = 'users'
 
-    serialize_rules = ('-posts', '-communities', '-_password_hash', '-communities_created')
+    serialize_rules = ('-posts', '-communities', '-_password_hash', '-communities_created', '-comments')
 
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(50), unique=True, nullable=False)
@@ -51,7 +51,7 @@ class User(db.Model, SerializerMixin):
 class Post(db.Model, SerializerMixin):
     __tablename__ = 'posts'
 
-    serialize_rules = ('-users', '-communities')
+    serialize_rules = ('-users', '-communities', '-comments')
 
     id = db.Column(db.Integer, primary_key=True)
     image = db.Column(db.String)
@@ -82,7 +82,7 @@ class Community(db.Model, SerializerMixin):
 class Comment(db.Model, SerializerMixin):
     __tablename__ = 'comments'
 
-    serialize_rules = ('-post.user._password_hash', '-user._password_hash')
+    serialize_rules = ('-user_id', '-post_id', '-users.comments', '-users.posts', '-users.communities')
 
     id = db.Column(db.Integer, primary_key=True)
     body = db.Column(db.Text, nullable=False)

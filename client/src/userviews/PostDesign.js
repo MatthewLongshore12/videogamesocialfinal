@@ -13,11 +13,26 @@ import AddComment from '../components/AddComment';
 const PostDesign = () => {
   const [postsData, setPostsData] = useState([])
   const [usersData, setUsersData] = useState([])
+  const [commentsData, setCommentsData] = useState([]);
+  const [selectedPostId, setSelectedPostId] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleAddCommentClick = () => {
     setIsModalOpen(true);
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('http://127.0.0.1:5555/comments');
+        const data = await response.json();
+        setCommentsData(data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchData();
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {

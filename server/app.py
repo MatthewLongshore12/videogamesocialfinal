@@ -274,6 +274,7 @@ class Comments(Resource):
     def get(self):
         comments = Comment.query.all()
         return make_response({'comments': [c.to_dict() for c in comments]}, 200)
+    
     def post(self): 
         data = request.get_json()
         try: 
@@ -290,13 +291,41 @@ class Comments(Resource):
             )
         except ValueError: 
             return make_response({'error': '400: Validation error. Please actually insert a comment'})
+        
         db.session.add(new_comment)
         db.session.commit()
 
-        latest_comment = Comment.query.order_by(Comment.created_at.desc()).all()
-        new = latest_comment[0]
+        return make_response(new_comment.to_dict(), 200)
+    
+class CommentsById(Resource):
+    def get(self, comment_id):
+        comment = Comment.query.get(comment_id)
+        if comment:
+            return make_response(comment.to_dict(), 200)
+        else:
+            return make_response({'error': 'Comment not found'}, 404)
 
-        return make_response(new.to_dict(), 200)
+    def patch(self, comment_id):
+        data = request.get_json()
+        comment = Comment.query.get(comment_id)
+        if not comment:
+            return make_response({'error': 'Comment not found'}, 404)
+        try:
+            if 'body' in data:
+                comment.body = data['body']
+            db.session.commit()
+            return make_response(comment.to_dict(), 200)
+        except ValueError:
+            return make_response({'error': '400: Validation error. Please actually insert a comment'})
+
+    def delete(self, comment_id):
+        comment = Comment.query.get(comment_id)
+        if comment:
+            db.session.delete(comment)
+            db.session.commit()
+            return make_response({'message': 'Comment successfully deleted'}, 200)
+        else:
+            return make_response({'error': 'Comment not found'}, 404)
 
 
 
@@ -304,6 +333,7 @@ class Comments(Resource):
 
         
 api.add_resource(Comments, '/comments', endpoint='comments')
+api.add_resource(CommentsById, '/comments/<int:comment_id>')
 api.add_resource(Home, '/')
 api.add_resource(SignUp, '/signup', endpoint='signup')
 api.add_resource(Login, '/login', endpoint='login')
