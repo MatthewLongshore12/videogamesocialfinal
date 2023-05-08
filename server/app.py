@@ -271,6 +271,9 @@ class PostByID(Resource):
         return make_response({'message': 'The post has been deleted'}, 200)
     
 class Comments(Resource):
+    def get(self):
+        comments = Comment.query.all()
+        return make_response({'comments': [c.to_dict() for c in comments]}, 200)
     def post(self): 
         data = request.get_json()
         try: 
@@ -281,9 +284,9 @@ class Comments(Resource):
 
         try:
             new_comment = Comment(
+                body = data['body'],
                 user_id = id,
-                video_id = data['video_id'],
-                content = data['content']
+                post_id = data['post_id'],
             )
         except ValueError: 
             return make_response({'error': '400: Validation error. Please actually insert a comment'})

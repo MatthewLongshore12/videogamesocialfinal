@@ -5,10 +5,19 @@ import { ExpandMore, Favorite, FavoriteBorder } from '@mui/icons-material';
 import { Box, Avatar, CardActions, CardContent, CardHeader, CardMedia, Checkbox, Collapse, IconButton, Typography } from '@mui/material';
 import { red } from '@mui/material/colors';
 import ScreenShareIcon from '@mui/icons-material/ScreenShare';
+import AddCommentIcon from '@mui/icons-material/AddComment';
+import AddComment from '../components/AddComment';
+
+
 
 const PostDesign = () => {
   const [postsData, setPostsData] = useState([])
   const [usersData, setUsersData] = useState([])
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleAddCommentClick = () => {
+    setIsModalOpen(true);
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -86,14 +95,11 @@ const PostDesign = () => {
                 />
               </IconButton> */}
               {/* THIS IS A PLACEHOLDER TO EXPAND TO COMMENTS PROBABLY */}
-              <ExpandMore
-                //  expand={expanded}
-                //  onClick={handleExpandClick}
-                //  aria-expanded={expanded}
-                aria-label="show more"
+              <AddComment isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
+              <AddCommentIcon
+                 onClick={handleAddCommentClick}
               >
-                {/* <ExpandMoreIcon /> */}
-              </ExpandMore>
+              </AddCommentIcon>
             </CardActions>
           </Card>
         );
