@@ -5,7 +5,6 @@ import { UserContext } from '../statekeeper/state'
 import NavBar from './NavBar'
 import Sidebar from './Sidebar'
 import PostDesign from './PostDesign';
-import MakePost from './MakePost';
 
 const HomePage = () => {
     const { user, setUser } = useContext( UserContext )
@@ -23,7 +22,6 @@ const HomePage = () => {
                     <PostDesign />
                 </Box>
             </Box>
-            {/* <MakePost /> */}
         </div>
     )
 }

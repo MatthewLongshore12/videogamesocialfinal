@@ -12,12 +12,12 @@ const StyledToolbar = styled(Toolbar)({
 
 
 // SEARCH BAR FOR NAV, GOING TO KEEP HERE BECAUSE I ALREADY DESIGNED IT REGARDLESS IF I WANT TO PUT IT SOMEWHERE ELSE
-const Search = styled("div")(({theme})=>({
-  backgroundColor:"white",
-  padding:"0 10px",
-  borderRadius: "20px",
-  width:"40%"
-}))
+// const Search = styled("div")(({theme})=>({
+//   backgroundColor:"white",
+//   padding:"0 10px",
+//   borderRadius: "20px",
+//   width:"40%"
+// }))
 
 const Icons = styled(Box)(({ theme }) => ({
   display: "none",
@@ -42,7 +42,8 @@ const UserBox = styled(Box)(({theme})=>({
 }))
 
 
-function NavBar({ handleLogout }) {
+
+function NavBar() {
     const { user, setUser } = useContext(UserContext);
     const [open,setOpen] = useState(false)
     const [anchorEl, setAnchorEl] = useState(null);
@@ -69,12 +70,12 @@ function NavBar({ handleLogout }) {
         {/* Icons */}
         {/* THIS IS MAJOR STRETCH GOALS PROB WILL NOT GET TO BUT MAYBE CREATED AND IM GOING TO LEAVE THEM HERE JUST IN CASE */}
         <Icons  onClick={handleClick}>
-        <Badge badgeContent={0} color="error">
+        {/* <Badge badgeContent={0} color="error">
           <Mail />
         </Badge>
         <Badge badgeContent={0} color="error">
           <Notifications />
-        </Badge>
+        </Badge> */}
         <Avatar src={user?.profile_picture || '/default-profile-picture.png'} />
       </Icons>
 
