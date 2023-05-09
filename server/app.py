@@ -285,9 +285,9 @@ class Comments(Resource):
 
         try:
             new_comment = Comment(
-                body = data['body'],
-                user_id = id,
-                post_id = data['post_id'],
+                body=data['body'],
+                user_id=id,
+                post_id=data['post_id'],
             )
         except ValueError: 
             return make_response({'error': '400: Validation error. Please actually insert a comment'})
@@ -326,6 +326,12 @@ class CommentsById(Resource):
             return make_response({'message': 'Comment successfully deleted'}, 200)
         else:
             return make_response({'error': 'Comment not found'}, 404)
+        
+@app.route('/posts/<int:post_id>/comments')
+def get_post_comments(post_id):
+    post = Post.query.get_or_404(post_id)
+    comments = Comment.query.filter_by(post=post).all()
+    return jsonify([comment.to_dict() for comment in comments])
 
 
 

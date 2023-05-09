@@ -35,7 +35,6 @@ const CommunityDesign = () => {
     <>
     {commData.map((item) => {
         return (
-
         <Card sx={{ maxWidth: 345 }}
         onClick={() => navigate(`/communities/${item.id}/home`)}>
         <CardActionArea>

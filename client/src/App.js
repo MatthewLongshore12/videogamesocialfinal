@@ -15,6 +15,8 @@ import MakePost from './userviews/MakePost';
 import CommPost from './userviews/CommPost';
 import CommHome from './userviews/CommHome';
 import OtherProfile from './userviews/OtherProfile';
+import AddComment from './components/AddComment';
+import PostDesign from './userviews/PostDesign';
 
 function App() {
   const { user, setUser } = useContext(UserContext);
@@ -76,6 +78,7 @@ function App() {
             <Route path="/communities/add" element={<CommPost user={user}/>} />
             <Route path="/communities/:id/home" element={<CommHome user={user}/>} />
             <Route path="/users/:id" element={<OtherProfile user={user}/>} />
+            <Route path="/posts/:id" element={<AddComment user={user}/>} />
           </Routes>
         </Box>
       </ThemeProvider>

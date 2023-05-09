@@ -1,5 +1,6 @@
 import { Card } from '@mui/material';
 import React, { useEffect, useState } from 'react';
+import { Navigate, useNavigate, useParams, Link } from 'react-router-dom'
 import styled from '@emotion/styled';
 import { ExpandMore, Favorite, FavoriteBorder } from '@mui/icons-material';
 import { Box, Avatar, CardActions, CardContent, CardHeader, CardMedia, Checkbox, Collapse, IconButton, Typography } from '@mui/material';
@@ -16,23 +17,29 @@ const PostDesign = () => {
   const [commentsData, setCommentsData] = useState([]);
   const [selectedPostId, setSelectedPostId] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const navigate = useNavigate();
+  const { id } = useParams();
 
-  const handleAddCommentClick = () => {
+
+
+  const handleAddCommentClick = (postId) => {
+    setSelectedPostId(postId)
     setIsModalOpen(true);
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch('http://127.0.0.1:5555/comments');
-        const data = await response.json();
-        setCommentsData(data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    fetchData();
-  }, []);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const response = await fetch(`http://127.0.0.1:5555/posts/${id}`);
+  //       const { posts } = await response.json()
+  //       const postsData = posts || []
+  //       setPostsData(Array.isArray(postsData) ? postsData : [])
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   };
+  //   fetchData();
+  // }, [id]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -110,9 +117,8 @@ const PostDesign = () => {
                 />
               </IconButton> */}
               {/* THIS IS A PLACEHOLDER TO EXPAND TO COMMENTS PROBABLY */}
-              <AddComment isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
               <AddCommentIcon
-                 onClick={handleAddCommentClick}
+                onClick={() => navigate(`/posts/${item.id}`)}
               >
               </AddCommentIcon>
             </CardActions>
