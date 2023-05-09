@@ -77,7 +77,7 @@ class Community(db.Model, SerializerMixin):
     creator_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
     posts = db.relationship('Post', backref='community', cascade='all, delete')
-    users = association_proxy('Post', 'user')
+    users = association_proxy('posts', 'user')
 
 class Comment(db.Model, SerializerMixin):
     __tablename__ = 'comments'
@@ -89,3 +89,17 @@ class Comment(db.Model, SerializerMixin):
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     post_id = db.Column(db.Integer, db.ForeignKey('posts.id'), nullable=False)
+
+class ChatMessage(db.Model, SerializerMixin):
+    __tablename__ = 'chat_messages'
+
+    serialize_rules = ('-user', '-community')
+
+    id = db.Column(db.Integer, primary_key=True)
+    body = db.Column(db.Text, nullable=False)
+    date_sent = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    community_id = db.Column(db.Integer, db.ForeignKey('communities.id'), nullable=False)
+
+    user = db.relationship('User', backref='chat_messages')
+    community = db.relationship('Community', backref='chat_messages')

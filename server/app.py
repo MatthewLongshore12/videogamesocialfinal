@@ -1,11 +1,9 @@
 from flask import Flask, make_response, jsonify, request, session, flash
-from flask_restful import Resource, Api
+from flask_restful import Resource, Api, reqparse
 from sqlalchemy.exc import IntegrityError
 from flask_migrate import Migrate
-
-
 from config import app, db, api, bcrypt
-from models import User, Community, Post, Comment
+from models import User, Community, Post, Comment, ChatMessage
 
 # app.secret_key = '\xe5\xa6\x95_\xefg\x1f\x9db`\x1a\x97FN\x87\x8a\xb3<j\xd9B4\xe7'
 
@@ -333,11 +331,74 @@ def get_post_comments(post_id):
     comments = Comment.query.filter_by(post=post).all()
     return jsonify([comment.to_dict() for comment in comments])
 
+class CommunityChat(Resource):
+    def get(self, community_id):
+        # Retrieve the chat messages for the community
+        chat_messages = ChatMessage.query.filter_by(community_id=community_id).all()
+        return [chat_message.to_dict() for chat_message in chat_messages], 200
+    
+    def post(self, community_id):
+        parser = reqparse.RequestParser()
+        parser.add_argument('body', type=str, required=True, help='Chat message body is required')
+        parser.add_argument('user_id', type=int, required=True, help='User ID is required')
+        args = parser.parse_args()
 
-
-
-
+        # Create a new chat message
+        chat_message = ChatMessage(
+            body=args['body'],
+            user_id=args['user_id'],
+            community_id=community_id
+        )
+        db.session.add(chat_message)
+        db.session.commit()
         
+        return chat_message.to_dict(), 201
+    
+    def delete(self, community_id, message_id):
+        # Retrieve the chat message by ID
+        chat_message = ChatMessage.query.filter_by(id=message_id, community_id=community_id).first()
+
+        # Check if the chat message exists
+        if not chat_message:
+            return {'message': 'Chat message not found'}, 404
+
+        # Delete the chat message
+        db.session.delete(chat_message)
+        db.session.commit()
+
+        return {'message': 'Chat message deleted successfully'}, 200
+    
+
+class ChatById(Resource):
+    def get(self, message_id):
+        # Retrieve the chat message by ID
+        chat_message = ChatMessage.query.filter_by(id=message_id).first()
+
+        # Check if the chat message exists
+        if not chat_message:
+            return {'message': 'Chat message not found'}, 404
+
+        return chat_message.to_dict(), 200
+
+    def delete(self, message_id):
+        # Retrieve the chat message by ID
+        chat_message = ChatMessage.query.filter_by(id=message_id).first()
+
+        # Check if the chat message exists
+        if not chat_message:
+            return {'message': 'Chat message not found'}, 404
+
+        # Delete the chat message
+        db.session.delete(chat_message)
+        db.session.commit()
+
+        return {'message': 'Chat message deleted successfully'}, 200
+
+
+
+
+api.add_resource(ChatById, '/chats/<int:message_id>')
+api.add_resource(CommunityChat, '/communities/<int:community_id>/chat')
 api.add_resource(Comments, '/comments', endpoint='comments')
 api.add_resource(CommentsById, '/comments/<int:comment_id>')
 api.add_resource(Home, '/')

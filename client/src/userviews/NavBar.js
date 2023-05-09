@@ -75,11 +75,7 @@ function NavBar({ handleLogout }) {
         <Badge badgeContent={0} color="error">
           <Notifications />
         </Badge>
-        <Avatar
-        src={user.profile_picture}
-          sx={{ width: 30, height: 30 }}
-          // onClick={(e) => setOpen(true)}
-        />
+        <Avatar src={user?.profile_picture || '/default-profile-picture.png'} />
       </Icons>
 
       {/* User box for mobile  */}

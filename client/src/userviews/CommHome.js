@@ -5,7 +5,7 @@ import React, { useContext, useState, useEffect } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import { useParams, Link } from "react-router-dom";
 import Button from "@mui/material/Button";
-import { Box, Card, Avatar, CardActions, CardContent, CardHeader, CardMedia, Checkbox, Collapse, IconButton, Typography } from '@mui/material';
+import { Box, Card, Avatar, CardActions, CardContent, CardHeader, CardMedia, Checkbox, Collapse, IconButton, Typography, Container, Grid, Paper, TextField } from '@mui/material';
 import { ExpandMore, Favorite, FavoriteBorder } from '@mui/icons-material';
 
 
@@ -15,8 +15,11 @@ function CommHome() {
   const [commUsersData, setCommUsersData] = useState([]);
   const [usersData, setUsersData] = useState([])
   const [postsData, setPostsData] = useState([])
-  const [displayUsers, setDisplayUsers] = useState(false)
+  const [chatsData, setChatsData] = useState([])
+  const [body, setBody] = useState('');
   const [displayPosts, setDisplayPosts] = useState(true)
+  const [displayUsers, setDisplayUsers] = useState(false)
+  const [displayChat, setDisplayChat] = useState(false)
   const { user, setUser } = useContext(UserContext);
   const navigate = useNavigate();
   const { id } = useParams();
@@ -24,6 +27,18 @@ function CommHome() {
   useEffect(() => {
     const fetchCommunityData = async () => {
       try {
+
+        const chatResponse = await fetch(
+          `http://127.0.0.1:5555/communities/${id}/chat`
+        )
+        const chatsData = await chatResponse.json()
+        setChatsData(chatsData)
+        // const { chats } = await chatResponse.json()
+        // const chatsData = chats || []
+        // setChatsData(Array.isArray(chatsData) ? chatsData : [])
+        // console.log(chatsData)
+
+
         const communityResponse = await fetch(
           `http://127.0.0.1:5555/communities/${id}`
         );
@@ -56,6 +71,34 @@ function CommHome() {
     fetchCommunityData();
   }, [id]);
 
+
+  const handleSubmitChat = async (event) => {
+    event.preventDefault();
+    const post = {
+      body,
+      user_id: user.id,
+      community_id: commData.id
+    }
+    try {
+      const response = await fetch(`http://127.0.0.1:5555/communities/${id}/chat`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(post)
+      })
+      const newChatResponse = await response.json();
+      setChatsData([...chatsData, newChatResponse]);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleNewChatChange = (event) => {
+    setBody(event.target.value);
+  };
+
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -73,12 +116,20 @@ function CommHome() {
   const handleDisplayUsers = () => {
     setDisplayUsers(true)
     setDisplayPosts(false)
+    setDisplayChat(false)
   };
 
   const handleDisplayPosts = () => {
     setDisplayUsers(false)
     setDisplayPosts(true)
+    setDisplayChat(false)
   };
+
+  const handleDisplayChat = () => {
+    setDisplayUsers(false)
+    setDisplayPosts(false)
+    setDisplayChat(true)
+  }
 
   if (!user) {
     return <Navigate replace to="/login" />;
@@ -95,6 +146,9 @@ function CommHome() {
         </Button>
         <Button size="small" variant="outlined" onClick={handleDisplayUsers}>
           Users
+        </Button>
+        <Button size="small" variant="outlined" onClick={handleDisplayChat}>
+          Chat
         </Button>
       </header>
       <div className="postWrapper">
@@ -168,8 +222,31 @@ function CommHome() {
                 })}
             </>
         )}
+        {displayChat && (
+  <>
+    <h2>Chat</h2>
+    {chatsData.map((chat) => (
+      <div key={chat.id}>
+        <p>By {chat.user_id}</p>
+        <p>{chat.body}</p>
       </div>
-    </div>
+    ))}
+    <form onSubmit={handleSubmitChat}>
+      <TextField
+        id="chat-input"
+        label="Enter your message"
+        value={body}
+        onChange={handleNewChatChange}
+        margin="normal"
+      />
+      <Button type="submit" variant="contained" color="primary">
+        Send
+      </Button>
+    </form>
+  </>
+)}
+  </div>
+      </div>
   );
 }
 
