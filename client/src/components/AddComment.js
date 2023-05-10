@@ -6,6 +6,8 @@ import Sidebar from '../userviews/Sidebar';
 import { UserContext } from '../statekeeper/state';
 import "../stylesheets/addcomment.css"
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { createTheme } from '@mui/material/styles';
+
 
 
 function AddComment() {
@@ -15,6 +17,28 @@ function AddComment() {
   const [body, setBody] = useState('');
   const { id } = useParams();
   const navigate = useNavigate();
+
+  const theme = createTheme({
+    palette: {
+      primary: {
+        main: '#a8aedd',
+      },
+      secondary: {
+        main: '#a8aedd',
+      },
+      text: {
+        primary: '#a8aedd',
+      },
+    },
+  });
+
+  const theme2 = {
+    primary: {
+      main: '#a8aedd',
+      dark: '#4b5e91',
+      light: '#99aab5',
+    },
+  };
 
 
   useEffect(() => {
@@ -119,7 +143,7 @@ function AddComment() {
                 </Paper>
               ))}
             </div>
-            <form onSubmit={handleSubmitComment}>
+            <form onSubmit={handleSubmitComment} sx={{color: theme2.primary.main}} style={{ marginTop: '20px' }}>
               <TextField
                 label="Add a comment"
                 value={body}
@@ -127,10 +151,30 @@ function AddComment() {
                 fullWidth
                 margin="normal"
                 InputLabelProps={{
-                  shrink: true,
+                  style: { color: '#a8aedd', fontSize: '14px' }
+                }}
+                InputProps={{
+                  style: { color: '#a8aedd', fontSize: '16px' },
+                  sx: {
+                    '& fieldset': {
+                      borderColor: theme2.primary.main,
+                    },
+                    '&:hover fieldset': {
+                      borderColor: theme2.primary.main,
+                    },
+                    '&.Mui-focused fieldset': {
+                      borderColor: theme2.primary.main,
+                      borderWidth: 2
+                    },
+                    '& input:valid:focus + fieldset': {
+                      borderLeftWidth: 4,
+                      padding: '4px !important',
+                      borderColor: theme2.primary.main 
+                    },
+                  },
                 }}
               />
-              <Button variant="contained" type="submit">
+              <Button type="submit" variant="contained" color="primary" style={{ marginTop: '10px', backgroundColor: theme2.primary.main }}>
                 Add Comment
               </Button>
             </form>
