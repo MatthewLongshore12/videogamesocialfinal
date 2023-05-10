@@ -1,8 +1,12 @@
 .rightbar {
-    flex: 3.5;
-    background-color: black;
-    padding-left: 20px;
-  }
+  flex: 3.5;
+  background-color: black;
+  padding-left: 20px;
+  /* THIS IS IF I WANT THE BOX TO FIT AROUND THE INFO */
+  /* height: fit-content; 
+  max-height: 100%; 
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5); */
+}
   
   .rightbarWrapper {
     padding: 20px 20px 0 0;
@@ -39,7 +43,7 @@
   .rightbarTitle{
       margin-bottom: 20px;
       margin-top: 20px;
-      color: white;
+      color: #a8aedd;
   }
   
   .rightbarFriendList {
@@ -65,7 +69,7 @@
   .rightbarInfoKey{
     font-weight: 500;
     margin-right: 15px;
-    color: orange;
+    color: #88d4c3;
   }
   
   .rightbarInfoValue{

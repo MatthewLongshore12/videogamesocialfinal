@@ -72,6 +72,7 @@ function App() {
             <Route path="/profile" element={<ProfilePage user={user} setUser={setUser} handleLogout={handleLogout}/>} />
             <Route path="/communities" element={<CommunityPage />} />
             <Route path="navbar" element={<NavBar user={user} handleLogout={handleLogout}/>} />
+            <Route path='sidebar' element={<Sidebar mode={mode} setMode={setMode}/>} />
             <Route path="/profile/edit" element={<EditProfile user={user}/>} /> 
             <Route path="/" element={<HomePage user={user}/>} />
             <Route path="/profile/add" element={<MakePost user={user}/>} />

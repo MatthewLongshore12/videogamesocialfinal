@@ -6,9 +6,7 @@ import { ExpandMore, Favorite, FavoriteBorder } from '@mui/icons-material';
 import { Box, Avatar, CardActions, CardContent, CardHeader, CardMedia, Checkbox, Collapse, IconButton, Typography } from '@mui/material';
 import { red } from '@mui/material/colors';
 import ScreenShareIcon from '@mui/icons-material/ScreenShare';
-import AddCommentIcon from '@mui/icons-material/AddComment';
-import AddComment from '../components/AddComment';
-
+import ModeCommentIcon from '@mui/icons-material/ModeComment';
 
 
 const PostDesign = () => {
@@ -64,40 +62,38 @@ const PostDesign = () => {
         const user = usersData.find((user) => user.id === item.user_id)
         return (
           <Card sx={{ margin: 5, maxWidth: 600 }} key={item.id}>
-  <CardHeader
-    avatar={
-      <Box
-        sx={{
-          display: 'inline-block',
-          width: '32px',
-          height: '32px',
-          backgroundImage: user && `url(${user.profile_picture})`,
-          backgroundSize: 'cover',
-          borderRadius: '50%',
-          marginRight: '8px',
-        }}
-      />
-    }
-    title={`${user ? user.username : ''}`}
-    // subheader={new Date(item.date_posted).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
-  />
-  <CardMedia component="img" image={item.image} />
-
-  <CardContent>
-    <Typography variant="body1" color="text.secondary">
-      {item.caption}
-    </Typography>
-    <Typography variant="body2" color="text.secondary" sx={{ marginTop: '8px' }}>
-      {new Date(item.date_posted).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
-    </Typography>
-  </CardContent>
-
-  <CardActions disableSpacing sx={{ padding: '8px 16px' }}>
-    {/* Removed IconButton */}
-    {/* THIS IS A PLACEHOLDER TO EXPAND TO COMMENTS PROBABLY */}
-    <AddCommentIcon aria-label="view more" onClick={() => navigate(`/posts/${item.id}`)} />
-  </CardActions>
-</Card>
+          <CardHeader
+            avatar={
+              <Box
+                sx={{
+                  display: 'inline-block',
+                  width: '32px',
+                  height: '32px',
+                  backgroundImage: user && `url(${user.profile_picture})`,
+                  backgroundSize: 'cover',
+                  borderRadius: '50%',
+                  marginRight: '8px',
+                }}
+              />
+            }
+            title={`${user ? user.username : ''}`}
+            // subheader={new Date(item.date_posted).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
+          />
+          <CardMedia component="img" image={item.image} />
+          <CardContent>
+            <Typography variant="body1" color="text.secondary">
+              {item.caption}
+            </Typography>
+            <Typography variant="body2" color="text.secondary" sx={{ marginTop: '8px' }}>
+              {new Date(item.date_posted).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
+            </Typography>
+          </CardContent>
+          <CardActions disableSpacing sx={{ padding: '8px 16px' }}>
+            {/* Removed IconButton */}
+            {/* THIS IS A PLACEHOLDER TO EXPAND TO COMMENTS PROBABLY */}
+            <ModeCommentIcon aria-label="view more" onClick={() => navigate(`/posts/${item.id}`)} />
+          </CardActions>
+          </Card>
         );
       })}
     </>

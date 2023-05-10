@@ -26,14 +26,14 @@ const Sidebar = ({ setMode, mode }) => {
           </ListItem>
 
           {/* Chat */}
-          <ListItem disablePadding>
+          {/* <ListItem disablePadding>
             <ListItemButton component={NavLink} to="/chat">
               <ListItemIcon>
                 <Diversity3Icon />
               </ListItemIcon>
               <ListItemText primary="Chat" />
             </ListItemButton>
-          </ListItem>
+          </ListItem> */}
 
           {/* Communities */}
           <ListItem disablePadding>
@@ -46,14 +46,14 @@ const Sidebar = ({ setMode, mode }) => {
           </ListItem>
 
           {/* Friends */}
-          <ListItem disablePadding>
+          {/* <ListItem disablePadding>
             <ListItemButton component={NavLink} to="/friends">
               <ListItemIcon>
                 <GroupIcon />
               </ListItemIcon>
               <ListItemText primary="Friends" />
             </ListItemButton>
-          </ListItem>
+          </ListItem> */}
 
           {/* Profile */}
           <ListItem disablePadding>

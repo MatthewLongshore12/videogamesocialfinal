@@ -27,6 +27,13 @@ class User(db.Model, SerializerMixin):
     communities_created = db.relationship('Community', backref='creator', cascade='all, delete-orphan')
     comments = db.relationship('Comment', backref='user', cascade='all, delete')
 
+    @property
+    def num_posts(self):
+        return len(self.posts)
+    
+    @property
+    def num_communities_created(self):
+        return len(self.communities_created)
 
     @hybrid_property
     def password_hash(self):
