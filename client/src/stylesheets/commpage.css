@@ -1,0 +1,9 @@
+.community{
+    display: flex;
+}
+
+
+.communityright{
+    flex: 9;
+    border: 1px solid black;
+}
