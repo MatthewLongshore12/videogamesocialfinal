@@ -107,9 +107,9 @@ const MakePost = () => {
           <StyledHeader>Create Post</StyledHeader>
           <form onSubmit={handleSubmit} style={{width: "100%"}}>
             <Box sx={{ display: "flex", alignItems: "center", gap: "10px", mb: 3 }}>
-              <Avatar src="" sx={{ width: 30, height: 30 }} />
+            {user && <Avatar src={user.profile_picture} sx={{ width: 30, height: 30 }} />}
               <Typography fontWeight={500} variant="span" sx={{color: "#ffffff"}}>
-                {user.username}
+                {user && user.username}
               </Typography>
             </Box>
             <StyledTextField
