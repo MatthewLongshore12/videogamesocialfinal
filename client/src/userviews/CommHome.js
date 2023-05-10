@@ -5,15 +5,13 @@ import React, { useContext, useState, useEffect } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import { useParams, Link } from "react-router-dom";
 import Button from "@mui/material/Button";
-import { Box, Card, Avatar, Divider, CardActions, CardContent, CardHeader, CardMedia, Checkbox, Collapse, IconButton, Typography, Container, Grid, Paper, TextField, ButtonBase, Tabs, Tab } from '@mui/material';
+import { Box, Card, Avatar, Divider, CardActions, CardContent, CardHeader, CardMedia, Checkbox, Collapse, IconButton, Typography, Container, Grid, Paper, TextField, ButtonBase, Tabs, Tab, Fab, Tooltip } from '@mui/material';
 import { ExpandMore, Favorite, FavoriteBorder } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
 import "../stylesheets/commhome.css"
 import ModeCommentIcon from '@mui/icons-material/ModeComment';
 import { ThemeProvider } from '@mui/material/styles';
 import { createTheme } from '@mui/material/styles';
-
-
 
 
 function CommHome() {
@@ -181,6 +179,19 @@ function CommHome() {
       <NavBar />
       <div className="commhome">
       <Sidebar />
+      <Tooltip
+          onClick={() => navigate('/profile/add')}
+          title="Add"
+          sx={{
+            position: "fixed",
+            bottom: 20,
+            left: { xs: "calc(50% - 25px)", md: 30 },
+          }}
+        >
+          <Fab color="white" aria-label="add">
+            <h1>+</h1>
+          </Fab>
+        </Tooltip>
       <div className="commhomeright">
         <div className="commcover">
           <img
@@ -189,7 +200,9 @@ function CommHome() {
           />
         </div>
         <div className="comminfo">
-          <h4 className="comminfoname">{commData.name}</h4>
+          <h4 className="comminfoname">
+            {commData.name} <span style={{color: '#88d4c3', opacity: 0.7}}>id:</span><span style={{color: '#88d4c3', opacity: 0.7}}>{commData.id}</span>
+          </h4>
           <span className="comminfodesc">{commData.description}</span>
         </div>
     <Divider
