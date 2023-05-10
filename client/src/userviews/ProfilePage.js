@@ -11,6 +11,7 @@ import { Navigate, useNavigate } from "react-router-dom";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 
+
 function ProfilePage({handleLogout}) {
   const { user, setUser } = useContext(UserContext);
   const navigate = useNavigate();

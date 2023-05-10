@@ -5,8 +5,12 @@ import React, { useContext, useState, useEffect } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import { useParams, Link } from "react-router-dom";
 import Button from "@mui/material/Button";
-import { Box, Card, Avatar, CardActions, CardContent, CardHeader, CardMedia, Checkbox, Collapse, IconButton, Typography, Container, Grid, Paper, TextField } from '@mui/material';
+import { Box, Card, Avatar, Divider, CardActions, CardContent, CardHeader, CardMedia, Checkbox, Collapse, IconButton, Typography, Container, Grid, Paper, TextField, ButtonBase } from '@mui/material';
 import { ExpandMore, Favorite, FavoriteBorder } from '@mui/icons-material';
+import { styled } from '@mui/material/styles';
+import "../stylesheets/commhome.css"
+import ModeCommentIcon from '@mui/icons-material/ModeComment';
+
 
 
 
@@ -61,6 +65,7 @@ function CommHome() {
         // THE ARRAY OF POSTS FROM THE RESPONSE OBJECT
         const { posts } = await postsResponse.json();
         const postsData = posts || [];
+        posts.sort((a, b) => new Date(b.date_posted) - new Date(a.date_posted));
         setPostsData(Array.isArray(postsData) ? postsData : []);
 
 
@@ -131,6 +136,13 @@ function CommHome() {
     setDisplayChat(true)
   }
 
+  const Img = styled('img')({
+    margin: 'auto',
+    display: 'block',
+    maxWidth: '100%',
+    maxHeight: '100%',
+  });
+
   if (!user) {
     return <Navigate replace to="/login" />;
   }
@@ -138,21 +150,41 @@ function CommHome() {
   return (
     <div>
       <NavBar />
+      <div className="commhome">
       <Sidebar />
-      <h1>{commData.name}</h1>
+      <div className="commhomeright">
+        <div className="commcover">
+          <img
+          className="commcoverimg"
+          src={commData.image}
+          />
+        </div>
+        <div className="comminfo">
+          <h4 className="comminfoname">{commData.name}</h4>
+          <span className="comminfodesc">{commData.description}</span>
+        </div>
+    <Divider
+              variant="middle"
+              sx={{
+                  backgroundColor: "black",
+                  height: "2px",
+                  width: "100%",
+                  margin: "16px 0",
+              }}
+            />
       <header>
         <Button size="small" variant="outlined" onClick={handleDisplayPosts}>
           Posts
         </Button>
-        <Button size="small" variant="outlined" onClick={handleDisplayUsers}>
+        {/* <Button size="small" variant="outlined" onClick={handleDisplayUsers}>
           Users
-        </Button>
+        </Button> */}
         <Button size="small" variant="outlined" onClick={handleDisplayChat}>
           Chat
         </Button>
       </header>
       <div className="postWrapper">
-        { displayUsers && ( 
+        {/* { displayUsers && ( 
             <>
             {commUsersData.map((user) => ( 
               <Link to={`/users/${user.id}`} key={user.id}>
@@ -160,92 +192,92 @@ function CommHome() {
               </Link>
             ))}
             </>
-        )}
+        )} */}
         { displayPosts && (
             <>
             {postsData.map((posts) => {
               const users = usersData.find((users) => users.id === posts.user_id)
               return (
-                <div key={posts.id}><Card sx={{ margin: 5 }}>
-                <CardHeader
-                avatar={
-                  <Box
-                    sx={{
-                      display: 'inline-block',
-                      width: '32px',
-                      height: '32px',
-                      backgroundImage: user && `url(${users.profile_picture})`,
-                      backgroundSize: 'cover',
-                      borderRadius: '50%',
-                      marginRight: '8px',
-                    }}
-                  />
-                }
-                title={posts.caption}
-                subheader={`"${users ? users.username : ''}"`}
-              />
-                <CardMedia component="img" image={posts.image} />
-      
-                <CardContent>
-                  <Typography variant="body2" color="text.secondary">
-                    {posts.date_posted}
-                  </Typography>
-                </CardContent>
-      
-                <CardActions disableSpacing>
-                  <IconButton aria-label="add to favorites">
-                    <Checkbox
-                      color="secondary"
-                      icon={<FavoriteBorder />}
-                      checkedIcon={<Favorite />}
+                <Card sx={{ margin: 5, maxWidth: 600, display: 'inline-block' }} key={posts.id}>
+                  <Link to={`/users/${users.id}`} key={users.id}>
+                  <CardHeader
+                    avatar={
+                      <Box
+                      sx={{
+                        display: 'inline-block',
+                        width: '32px',
+                        height: '32px',
+                        backgroundImage: users && `url(${users.profile_picture})`,
+                        backgroundSize: 'cover',
+                        borderRadius: '50%',
+                        marginRight: '8px',
+                      }}
+                      />
+                    }
+                    title={`${users ? users.username : ''}`}
+                    // subheader={new Date(posts.date_posted).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
                     />
-                  </IconButton>
-                  {/* THIS IS A SHARE BUTTON IF I GET TO IT I WILL ADD IT AND YOU WILL BE ABLE TO SHARE POSTS IN CHATS */}
-                  {/* <IconButton aria-label="share">
-                    <Checkbox
-                      icon={<ScreenShareIcon />}
-                      checkedIcon={<ScreenShareIcon />}
-                    />
-                  </IconButton> */}
-                  {/* THIS IS A PLACEHOLDER TO EXPAND TO COMMENTS PROBABLY */}
-                  <ExpandMore
-                    //  expand={expanded}
-                    //  onClick={handleExpandClick}
-                    //  aria-expanded={expanded}
-                    aria-label="show more"
-                  >
-                    {/* <ExpandMoreIcon /> */}
-                  </ExpandMore>
-                </CardActions>
-              </Card></div>
+                    </Link>
+                    <CardMedia component="img" image={posts.image} />
+                  <CardContent>
+                    <Typography variant="body1" color="text.secondary">
+                      {posts.caption}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary" sx={{ marginTop: '8px' }}>
+                      {new Date(posts.date_posted).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
+                    </Typography>
+                  </CardContent>
+                  <CardActions disableSpacing sx={{ padding: '8px 16px' }}>
+                      {/* Removed IconButton */}
+                      {/* THIS IS A PLACEHOLDER TO EXPAND TO COMMENTS PROBABLY */}
+                      <ModeCommentIcon aria-label="view more" onClick={() => navigate(`/posts/${posts.id}`)} />
+                  </CardActions>
+                </Card>
               )
                 })}
             </>
         )}
         {displayChat && (
-  <>
-    <h2>Chat</h2>
-    {chatsData.map((chat) => (
-      <div key={chat.id}>
-        <p>By {chat.user_id}</p>
-        <p>{chat.body}</p>
-      </div>
-    ))}
-    <form onSubmit={handleSubmitChat}>
-      <TextField
-        id="chat-input"
-        label="Enter your message"
-        value={body}
-        onChange={handleNewChatChange}
-        margin="normal"
-      />
-      <Button type="submit" variant="contained" color="primary">
-        Send
-      </Button>
-    </form>
-  </>
-)}
+  <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+    <div style={{ width: '70%', backgroundColor: '#36393f', borderRadius: '10px', padding: '20px', color: '#fff', fontFamily: 'sans-serif' }}>
+      <h2 style={{ fontSize: '24px', fontWeight: 'bold', marginBottom: '20px' }}>Chat Room</h2>
+      {chatsData.map((chat) => {
+        const users = usersData.find((users) => users.id === chat.user_id)
+        return (
+        <div key={chat.id} style={{ marginBottom: '10px', display: 'flex', alignItems: 'center' }}>
+          <Link to={`/users/${users.id}`} key={users.id}>
+          <div style={{ width: '50px', height: '50px', borderRadius: '50%', overflow: 'hidden', marginRight: '10px' }}>
+            <img src={users.profile_picture} alt="User Avatar" style={{ width: '100%', height: '100%' }} />
+          </div>
+          </Link>
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <p style={{ fontSize: '14px', fontWeight: 'bold', marginBottom: '5px', display: 'flex' }}>{users.username}</p>
+            <p style={{ fontSize: '16px', marginBottom: '0', marginTop: '5px' }}>{chat.body}</p>
+          </div>
+        </div>
+        )
+})}
+      <form onSubmit={handleSubmitChat} style={{ marginTop: '20px' }}>
+        <TextField
+          id="chat-input"
+          label="Enter your message"
+          value={body}
+          onChange={handleNewChatChange}
+          margin="normal"
+          fullWidth
+          InputLabelProps={{ style: { color: '#b9bbbe', fontSize: '14px' } }}
+          InputProps={{ style: { color: '#fff', fontSize: '16px' } }}
+        />
+        <Button type="submit" variant="contained" color="primary" style={{ marginTop: '10px' }}>
+          Send
+        </Button>
+      </form>
+    </div>
   </div>
+)}
+      </div>
+      </div>
+      </div>
       </div>
   );
 }
