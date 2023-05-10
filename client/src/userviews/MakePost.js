@@ -6,8 +6,6 @@ import { UserContext } from '../statekeeper/state';
 import { Navigate, useNavigate } from 'react-router-dom';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
-
-
 const StyledBox = styled(Box)({
   display: "flex",
   flexDirection: "column",
