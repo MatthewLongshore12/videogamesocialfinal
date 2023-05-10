@@ -4,6 +4,7 @@ import React, { useContext, useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import OtherUserPosts from "../components/OtherUserPosts";
 import OtherProfileInfo from "../components/OtherProfileInfo";
+import { Divider } from "@mui/material";
 
 
 
@@ -31,7 +32,6 @@ function OtherProfile() {
       <div className="profile">
         <Sidebar />
         <div className="profileRight">
-          <div className="profileRightTop">
             <div className="profileCover">
               <img
                 className="profileCoverImg"
@@ -48,12 +48,21 @@ function OtherProfile() {
                 alt="profilepic"
                 />
             </div>
+          <div className="profileRightTop">
+          </div>
             <div className="profileInfo">
               <h4 className="profileInfoName">{userData.username}</h4>
-              {/* GOING TO ADD BIO FOR USER IN MODELS */}
               <span className="profileInfoDesc">{userData.bio}</span>
             </div>
-          </div>
+            <Divider
+              variant="middle"
+              sx={{
+                  backgroundColor: "black",
+                  height: "2px",
+                  width: "100%",
+                  margin: "16px 0",
+              }}
+            />
           <div className="profileRightBottom">
             <OtherUserPosts userData={userData}/>
             <OtherProfileInfo userData={userData} />

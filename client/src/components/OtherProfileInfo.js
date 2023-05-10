@@ -40,16 +40,14 @@ function OtherProfileInfo() {
             <span className="rightbarInfoValue">{userData.first_name}</span>
           </div>
           <div className="rightbarInfoItem">
-            <span className="rightbarInfoKey">DOB:</span>
-            <span className="rightbarInfoValue">{userData.dob}</span>
+            <span className="rightbarInfoKey">Last Name:</span>
+            <span className="rightbarInfoValue">
+            {userData.last_name}
+            </span>
           </div>
           <div className="rightbarInfoItem">
-            <span className="rightbarInfoKey">Communities:</span>
-            <span className="rightbarInfoValue">
-            {/* {user.communities.map((community) => (
-                <span key={community.id}>{community.name}</span>
-            ))} */}
-            </span>
+            <span className="rightbarInfoKey">DOB:</span>
+            <span className="rightbarInfoValue">{userData.dob}</span>
           </div>
         </div>
         {/* POSSIBLY WHERE FRIENDS GO */}

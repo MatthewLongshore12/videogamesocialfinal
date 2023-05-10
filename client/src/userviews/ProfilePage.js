@@ -35,9 +35,7 @@ function ProfilePage({handleLogout}) {
       <NavBar />
       <div className="profile">
         <Sidebar />
-        {/* <MakePost /> */}
         <Tooltip
-          // onClick={(e) => setOpen(true)}
           onClick={() => navigate('/profile/add')}
           title="Add"
           sx={{
