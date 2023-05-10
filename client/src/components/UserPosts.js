@@ -35,7 +35,7 @@ function UserPosts() {
         main: '#88d4c3',
       },
       text: {
-        primary: '#88d4c3', // set the text color to black
+        primary: '#88d4c3',
       },
     },
   });
@@ -55,7 +55,6 @@ function UserPosts() {
       try {
         const response = await fetch('http://127.0.0.1:5555/posts');
         const data = await response.json();
-        // Sort posts in descending order based on date_posted
         data.sort((a, b) => new Date(b.date_posted) - new Date(a.date_posted));
         setPostsData(data);
       } catch (error) {

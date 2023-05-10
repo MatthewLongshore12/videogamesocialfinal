@@ -5,11 +5,13 @@ import React, { useContext, useState, useEffect } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import { useParams, Link } from "react-router-dom";
 import Button from "@mui/material/Button";
-import { Box, Card, Avatar, Divider, CardActions, CardContent, CardHeader, CardMedia, Checkbox, Collapse, IconButton, Typography, Container, Grid, Paper, TextField, ButtonBase } from '@mui/material';
+import { Box, Card, Avatar, Divider, CardActions, CardContent, CardHeader, CardMedia, Checkbox, Collapse, IconButton, Typography, Container, Grid, Paper, TextField, ButtonBase, Tabs, Tab } from '@mui/material';
 import { ExpandMore, Favorite, FavoriteBorder } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
 import "../stylesheets/commhome.css"
 import ModeCommentIcon from '@mui/icons-material/ModeComment';
+import { ThemeProvider } from '@mui/material/styles';
+import { createTheme } from '@mui/material/styles';
 
 
 
@@ -25,8 +27,31 @@ function CommHome() {
   const [displayUsers, setDisplayUsers] = useState(false)
   const [displayChat, setDisplayChat] = useState(false)
   const { user, setUser } = useContext(UserContext);
+  const [value, setValue] = React.useState('one');
   const navigate = useNavigate();
   const { id } = useParams();
+
+  const theme = createTheme({
+    palette: {
+      primary: {
+        main: '#a8aedd',
+      },
+      secondary: {
+        main: '#a8aedd',
+      },
+      text: {
+        primary: '#a8aedd',
+      },
+    },
+  });
+
+  const theme2 = {
+    primary: {
+      main: '#a8aedd',
+      dark: '#4b5e91',
+      light: '#99aab5',
+    },
+  };
 
   useEffect(() => {
     const fetchCommunityData = async () => {
@@ -118,12 +143,6 @@ function CommHome() {
   }, []);
 
 
-  const handleDisplayUsers = () => {
-    setDisplayUsers(true)
-    setDisplayPosts(false)
-    setDisplayChat(false)
-  };
-
   const handleDisplayPosts = () => {
     setDisplayUsers(false)
     setDisplayPosts(true)
@@ -142,6 +161,16 @@ function CommHome() {
     maxWidth: '100%',
     maxHeight: '100%',
   });
+
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+    if (newValue === 'one') {
+      handleDisplayPosts()
+    } else if (newValue === 'two') {
+      handleDisplayChat()
+    }
+  };
 
   if (!user) {
     return <Navigate replace to="/login" />;
@@ -173,15 +202,20 @@ function CommHome() {
               }}
             />
       <header>
-        <Button size="small" variant="outlined" onClick={handleDisplayPosts}>
-          Posts
-        </Button>
-        {/* <Button size="small" variant="outlined" onClick={handleDisplayUsers}>
-          Users
-        </Button> */}
-        <Button size="small" variant="outlined" onClick={handleDisplayChat}>
-          Chat
-        </Button>
+      <ThemeProvider theme={theme}>
+    <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+      <Tabs
+        value={value}
+        onChange={handleChange}
+        textColor="primary"
+        indicatorColor="secondary"
+        aria-label="secondary tabs example"
+      >
+        <Tab value="one" label="Posts" sx={{ color: theme.palette.text.primary }} />
+        <Tab value="two" label="Chat" sx={{ color: theme.palette.text.primary }} />
+      </Tabs>
+    </Box>
+      </ThemeProvider>
       </header>
       <div className="postWrapper">
         {/* { displayUsers && ( 
@@ -251,13 +285,13 @@ function CommHome() {
           </div>
           </Link>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <p style={{ fontSize: '14px', fontWeight: 'bold', marginBottom: '5px', display: 'flex' }}>{users.username}</p>
+            <p style={{ fontSize: '14px', fontWeight: 'bold', marginBottom: '5px', display: 'flex', color: '#a8aedd' }}>{users.username}</p>
             <p style={{ fontSize: '16px', marginBottom: '0', marginTop: '5px' }}>{chat.body}</p>
           </div>
         </div>
         )
 })}
-      <form onSubmit={handleSubmitChat} style={{ marginTop: '20px' }}>
+      <form onSubmit={handleSubmitChat} sx={{color: theme2.primary.main}} style={{ marginTop: '20px' }}>
         <TextField
           id="chat-input"
           label="Enter your message"
@@ -265,10 +299,29 @@ function CommHome() {
           onChange={handleNewChatChange}
           margin="normal"
           fullWidth
-          InputLabelProps={{ style: { color: '#b9bbbe', fontSize: '14px' } }}
-          InputProps={{ style: { color: '#fff', fontSize: '16px' } }}
+          InputLabelProps={{ style: { color: '#a8aedd', fontSize: '14px' } }}
+          InputProps={{
+            style: { color: '#a8aedd', fontSize: '16px' },
+            sx: {
+              '& fieldset': {
+                borderColor: theme2.primary.main,
+              },
+              '&:hover fieldset': {
+                borderColor: theme2.primary.main,
+              },
+              '&.Mui-focused fieldset': {
+                borderColor: theme2.primary.main,
+                borderWidth: 2
+              },
+              '& input:valid:focus + fieldset': {
+                borderLeftWidth: 4,
+                padding: '4px !important',
+                borderColor: theme2.primary.main 
+              },
+            },
+          }}
         />
-        <Button type="submit" variant="contained" color="primary" style={{ marginTop: '10px' }}>
+        <Button type="submit" variant="contained" color="primary" style={{ marginTop: '10px', backgroundColor: theme2.primary.main }}>
           Send
         </Button>
       </form>
