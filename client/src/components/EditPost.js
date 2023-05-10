@@ -3,6 +3,8 @@ import React, { useContext, useState } from "react";
 import { UserContext } from "../statekeeper/state";
 import { Navigate, useNavigate } from "react-router-dom";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { createTheme } from '@mui/material/styles';
+
 
 
 
@@ -11,6 +13,28 @@ function EditPost({ isOpen, handleClose, post, onPostUpdate, onPostDelete }) {
     const [caption, setCaption] = useState(user.caption);
     const [image, setImage] = useState(user.image);
     const navigate = useNavigate();
+
+    const theme = createTheme({
+      palette: {
+        primary: {
+          main: '#88d4c3',
+        },
+        secondary: {
+          main: '#88d4c3',
+        },
+        text: {
+          primary: '#88d4c3',
+        },
+      },
+    });
+  
+    const theme2 = {
+      primary: {
+        main: '#88d4c3',
+        dark: '#4b5e91',
+        light: '#99aab5',
+      },
+    };
   
     const handleCaptionChange = (event) => {
         setCaption(event.target.value);
@@ -61,15 +85,63 @@ function EditPost({ isOpen, handleClose, post, onPostUpdate, onPostDelete }) {
 
     return (
         <Dialog open={isOpen} onClose={handleClose}>
-        <DialogTitle>Edit Post</DialogTitle>
+        <DialogTitle color="#88d4c3">Edit Post</DialogTitle>
         <DialogContent>
             <img src={user.image} alt={user.caption} />
-            <TextField label="Image" onChange={handleImageChange} />
-            <TextField label="Caption" onChange={handleCaptionChange} />
+            <TextField 
+              label="Image" 
+              onChange={handleImageChange} 
+              InputLabelProps={{ style: { color: '#88d4c3', fontSize: '14px' } }}
+              InputProps={{
+                style: { color: '#88d4c3', fontSize: '16px' },
+                sx: {
+                  '& fieldset': {
+                    borderColor: theme2.primary.main,
+                  },
+                  '&:hover fieldset': {
+                    borderColor: theme2.primary.main,
+                  },
+                  '&.Mui-focused fieldset': {
+                    borderColor: theme2.primary.main,
+                    borderWidth: 2
+                  },
+                  '& input:valid:focus + fieldset': {
+                    borderLeftWidth: 4,
+                    padding: '4px !important',
+                    borderColor: theme2.primary.main 
+                  },
+                },
+              }}
+            />
+            <TextField 
+              label="Caption" 
+              onChange={handleCaptionChange}
+              InputLabelProps={{ style: { color: '#88d4c3', fontSize: '14px' } }}
+              InputProps={{
+                style: { color: '#88d4c3', fontSize: '16px' },
+                sx: {
+                  '& fieldset': {
+                    borderColor: theme2.primary.main,
+                  },
+                  '&:hover fieldset': {
+                    borderColor: theme2.primary.main,
+                  },
+                  '&.Mui-focused fieldset': {
+                    borderColor: theme2.primary.main,
+                    borderWidth: 2
+                  },
+                  '& input:valid:focus + fieldset': {
+                    borderLeftWidth: 4,
+                    padding: '4px !important',
+                    borderColor: theme2.primary.main 
+                  },
+                },
+              }}
+            />
         </DialogContent>
         <DialogActions>
-            <Button onClick={handleClose}>Cancel</Button>
-            <Button onClick={handleSubmit} color="primary">Save</Button>
+            <Button type="submit" variant="contained" color="primary" style={{ marginTop: '10px', backgroundColor: theme2.primary.main }} onClick={handleClose}>Cancel</Button>
+            <Button type="submit" variant="contained" color="primary" style={{ marginTop: '10px', backgroundColor: theme2.primary.main }} onClick={handleSubmit}>Save</Button>
             <IconButton onClick={handleDeletePost}>
               <DeleteIcon />
             </IconButton>

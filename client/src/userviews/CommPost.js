@@ -159,7 +159,7 @@ const CommPost = () => {
               value={image}
               onChange={(e) => setImage(e.target.value)}
             />
-            <SubmitButton type="submit">Post</SubmitButton>
+            <SubmitButton type="submit">Create</SubmitButton>
           </form>
         </StyledBox>
       </Box>

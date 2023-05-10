@@ -3,6 +3,8 @@ import React, { useContext, useState } from "react";
 import { UserContext } from "../statekeeper/state";
 import { Navigate, useNavigate } from "react-router-dom";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { createTheme } from '@mui/material/styles';
+
 
 
 function EditComm({ isOpen, handleClose, community, onCommUpdate, onCommDelete }) {
@@ -12,6 +14,28 @@ function EditComm({ isOpen, handleClose, community, onCommUpdate, onCommDelete }
     const [videogame, setVideoGame] = useState(user.video_game);
     const [image, setImage] = useState(user.image);
     const navigate = useNavigate();
+
+    const theme = createTheme({
+      palette: {
+        primary: {
+          main: '#88d4c3',
+        },
+        secondary: {
+          main: '#88d4c3',
+        },
+        text: {
+          primary: '#88d4c3',
+        },
+      },
+    });
+  
+    const theme2 = {
+      primary: {
+        main: '#88d4c3',
+        dark: '#4b5e91',
+        light: '#99aab5',
+      },
+    };
 
 
   
@@ -72,16 +96,112 @@ function EditComm({ isOpen, handleClose, community, onCommUpdate, onCommDelete }
 
     return (
         <Dialog open={isOpen} onClose={handleClose}>
-        <DialogTitle>Edit Community</DialogTitle>
+        <DialogTitle color="#88d4c3">Edit Community</DialogTitle>
         <DialogContent>
-            <TextField label="Name" onChange={handleNameChange} />
-            <TextField label="Description" onChange={handleDescriptionChange} />
-            <TextField label="Video Game" onChange={handleVideoGameChange} />
-            <TextField label="Image" onChange={handleImageChange} />
+            <TextField 
+              label="Name" 
+              onChange={handleNameChange}
+              InputLabelProps={{ style: { color: '#88d4c3', fontSize: '14px' } }}
+              InputProps={{
+                style: { color: '#88d4c3', fontSize: '16px' },
+                sx: {
+                  '& fieldset': {
+                    borderColor: theme2.primary.main,
+                  },
+                  '&:hover fieldset': {
+                    borderColor: theme2.primary.main,
+                  },
+                  '&.Mui-focused fieldset': {
+                    borderColor: theme2.primary.main,
+                    borderWidth: 2
+                  },
+                  '& input:valid:focus + fieldset': {
+                    borderLeftWidth: 4,
+                    padding: '4px !important',
+                    borderColor: theme2.primary.main 
+                  },
+                },
+              }}
+            />
+            <TextField 
+              label="Description" 
+              onChange={handleDescriptionChange}
+              InputLabelProps={{ style: { color: '#88d4c3', fontSize: '14px' } }}
+              InputProps={{
+                style: { color: '#88d4c3', fontSize: '16px' },
+                sx: {
+                  '& fieldset': {
+                    borderColor: theme2.primary.main,
+                  },
+                  '&:hover fieldset': {
+                    borderColor: theme2.primary.main,
+                  },
+                  '&.Mui-focused fieldset': {
+                    borderColor: theme2.primary.main,
+                    borderWidth: 2
+                  },
+                  '& input:valid:focus + fieldset': {
+                    borderLeftWidth: 4,
+                    padding: '4px !important',
+                    borderColor: theme2.primary.main 
+                  },
+                },
+              }}
+            />
+            <TextField 
+              label="Video Game" 
+              onChange={handleVideoGameChange}
+              InputLabelProps={{ style: { color: '#88d4c3', fontSize: '14px' } }}
+              InputProps={{
+                style: { color: '#88d4c3', fontSize: '16px' },
+                sx: {
+                  '& fieldset': {
+                    borderColor: theme2.primary.main,
+                  },
+                  '&:hover fieldset': {
+                    borderColor: theme2.primary.main,
+                  },
+                  '&.Mui-focused fieldset': {
+                    borderColor: theme2.primary.main,
+                    borderWidth: 2
+                  },
+                  '& input:valid:focus + fieldset': {
+                    borderLeftWidth: 4,
+                    padding: '4px !important',
+                    borderColor: theme2.primary.main 
+                  },
+                },
+              }}
+            />
+            <TextField 
+              label="Image" 
+              onChange={handleImageChange}
+              InputLabelProps={{ style: { color: '#88d4c3', fontSize: '14px' } }}
+              InputProps={{
+                style: { color: '#88d4c3', fontSize: '16px' },
+                sx: {
+                  '& fieldset': {
+                    borderColor: theme2.primary.main,
+                  },
+                  '&:hover fieldset': {
+                    borderColor: theme2.primary.main,
+                  },
+                  '&.Mui-focused fieldset': {
+                    borderColor: theme2.primary.main,
+                    borderWidth: 2
+                  },
+                  '& input:valid:focus + fieldset': {
+                    borderLeftWidth: 4,
+                    padding: '4px !important',
+                    borderColor: theme2.primary.main 
+                  },
+                },
+              }}
+            />
         </DialogContent>
         <DialogActions>
-            <Button onClick={handleClose}>Cancel</Button>
-            <Button onClick={handleSubmit} color="primary">Save</Button>
+            <Button type="submit" variant="contained" color="primary" style={{ marginTop: '10px', backgroundColor: theme2.primary.main }} onClick={handleClose}>Cancel</Button>
+            <Button type="submit" variant="contained" color="primary" style={{ marginTop: '10px', backgroundColor: theme2.primary.main }} onClick={handleSubmit}>Save</Button>
             <IconButton onClick={handleDeleteComm}>
               <DeleteIcon />
             </IconButton>
