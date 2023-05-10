@@ -24,6 +24,15 @@ function ProfilePage({handleLogout}) {
     setAnchorEl(null);
   };
   
+  const defaultProfilePic = "https://via.placeholder.com/150";
+  const defaultCoverPic = "https://via.placeholder.com/500x200";
+  const theme2 = {
+    primary: {
+      main: '#88d4c3',
+      dark: '#4b5e91',
+      light: '#99aab5',
+    },
+  };
 
   if (!user) {
     return <Navigate replace to="/login" />;
@@ -52,16 +61,12 @@ function ProfilePage({handleLogout}) {
             <div className="profileCover">
               <img
                 className="profileCoverImg"
-                src={
-                  user.cover_picture
-                }
+                src={user.cover_picture ? user.cover_picture : defaultCoverPic}
                 alt="profilepic"
                 />
               <img
                 className="profileUserImg"
-                src={
-                  user.profile_picture
-                }
+                src={user.profile_picture ? user.profile_picture : defaultProfilePic}
                 alt="profilepic"
                 />
             </div>
@@ -86,8 +91,8 @@ function ProfilePage({handleLogout}) {
                     'aria-labelledby': 'basic-button',
                   }}
                 >
-                  <MenuItem onClick={handleClose}><Button onClick={() => navigate('/profile/edit')}>Edit Profile</Button></MenuItem>
-                  <MenuItem onClick={handleClose}><Button onClick={handleLogout}>Logout</Button></MenuItem>
+                  <MenuItem onClick={handleClose}><Button type="submit" variant="contained" color="primary" style={{ marginTop: '10px', backgroundColor: theme2.primary.main }} onClick={() => navigate('/profile/edit')}>Edit Profile</Button></MenuItem>
+                  <MenuItem onClick={handleClose}><Button type="submit" variant="contained" color="primary" style={{ marginTop: '10px', backgroundColor: theme2.primary.main }} onClick={handleLogout}>Logout</Button></MenuItem>
                 </Menu>
               </div>
           </div>
