@@ -4,7 +4,10 @@ import React, { useContext, useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import OtherUserPosts from "../components/OtherUserPosts";
 import OtherProfileInfo from "../components/OtherProfileInfo";
-import { Divider } from "@mui/material";
+import { Divider, IconButton } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+
 
 
 
@@ -12,6 +15,8 @@ import { Divider } from "@mui/material";
 function OtherProfile() {
     const { id } = useParams();
     const [userData, setUserData] = useState({});
+    const navigate = useNavigate()
+
 
     useEffect(() => {
     const fetchUserData = async () => {
@@ -26,13 +31,25 @@ function OtherProfile() {
     fetchUserData();
   }, [id]);
 
+  const handleGoBack = () => {
+    navigate(-1);
+  };
+  
+
     return (
         <div>
       <NavBar />
       <div className="profile">
         <Sidebar />
         <div className="profileRight">
-            <div className="profileCover">
+        <div className="profileCover" style={{ position: 'relative' }}>
+          <IconButton
+            className="go back"
+            onClick={handleGoBack}
+            style={{ position: 'absolute', top: 0, left: 0, zIndex: 1, margin: '10px' }}
+          >
+                <ArrowBackIcon />
+              </IconButton>
               <img
                 className="profileCoverImg"
                 src={

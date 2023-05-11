@@ -149,7 +149,7 @@ function Signup({ onLogin, setUser }) {
               variant="outlined"
               onChange={formik.handleChange}
             />
-            <p style={{ color: "red" }}> {formik.errors.username}</p>
+            {/* <p style={{ color: "red" }}> {formik.errors.username}</p> */}
             <StyledTextField
               sx={{ width: "100%", mb: 2 }}
               inputProps={{ style: { color: "#ffffff" } }}
@@ -159,7 +159,7 @@ function Signup({ onLogin, setUser }) {
               variant="outlined"
               onChange={formik.handleChange}
             />
-            <p style={{ color: "red" }}> {formik.errors.email}</p>
+            {/* <p style={{ color: "red" }}> {formik.errors.email}</p> */}
             <StyledTextField
               sx={{ width: "100%", mb: 2 }}
               inputProps={{ style: { color: "#ffffff" } }}
@@ -179,7 +179,7 @@ function Signup({ onLogin, setUser }) {
               variant="outlined"
               onChange={formik.handleChange}
             />
-            <p style={{ color: "red" }}> {formik.errors.first_name}</p>
+            {/* <p style={{ color: "red" }}> {formik.errors.first_name}</p> */}
             <StyledTextField
               sx={{ width: "100%", mb: 2 }}
               inputProps={{ style: { color: "#ffffff" } }}
@@ -189,7 +189,7 @@ function Signup({ onLogin, setUser }) {
               variant="outlined"
               onChange={formik.handleChange}
             />
-            <p style={{ color: "red" }}> {formik.errors.last_name}</p>
+            {/* <p style={{ color: "red" }}> {formik.errors.last_name}</p> */}
             <StyledTextField
               sx={{ width: "100%", mb: 2 }}
               inputProps={{ style: { color: "#ffffff" } }}
@@ -199,7 +199,7 @@ function Signup({ onLogin, setUser }) {
               variant="outlined"
               onChange={formik.handleChange}
             />
-            <p style={{ color: "red" }}> {formik.errors.dob}</p>
+            {/* <p style={{ color: "red" }}> {formik.errors.dob}</p> */}
             
             <SubmitButton type="submit">Sign</SubmitButton>
           </form>
@@ -208,103 +208,6 @@ function Signup({ onLogin, setUser }) {
       <footer className='buttpage'>
       </footer>
     </Box>
-        // <div>
-        //     <form onSubmit={formik.handleSubmit} >
-        //         <div>
-        //             <h2>Sign Up</h2>
-        //         </div>
-
-        //         <label htmlFor="username">Username</label>
-        //         <input
-        //         type="text"
-        //         name="username"
-        //         id="username"
-        //         autoComplete="off"
-        //         onChange={formik.handleChange}
-        //         />
-        //         <p style={{ color: "red" }}> {formik.errors.username}</p>
-
-        //         <label htmlFor="email">Email Address</label>
-        //         <input
-        //         type="text"
-        //         name="email"
-        //         id="email"
-        //         autoComplete="off"
-        //         onChange={formik.handleChange}
-        //         />
-        //         <p style={{ color: "red" }}> {formik.errors.email}</p>
-
-        //         <div>
-        //             <label htmlFor="password">Password</label>
-        //             <input
-        //                 type="password"
-        //                 id="password"
-        //                 onChange={formik.handleChange}
-        //                 autoComplete="current-password"
-        //             />
-        //             <p style={{ color: "red" }}> {formik.errors.password}</p>
-        //         </div>
-
-        //         <label htmlFor="first_name">First Name</label>
-        //         <input
-        //         type="text"
-        //         name="first_name"
-        //         id="first_name"
-        //         onChange={formik.handleChange}
-        //         />
-        //         <p style={{ color: "red" }}> {formik.errors.first_name}</p>
-
-        //         <label htmlFor="last_name">Last Name</label>
-        //         <input
-        //         type="text"
-        //         name="last_name"
-        //         id="last_name"
-        //         onChange={formik.handleChange}
-        //         />
-        //         <p style={{ color: "red" }}> {formik.errors.last_name}</p>
-
-        //         <label htmlFor="dob">Date of Birth(mm/dd/yyyy)</label>
-        //         <input
-        //         type="text"
-        //         id="dob"
-        //         name="dob"
-        //         placeholder={formik.values.dob}
-        //         onChange={formik.handleChange}
-        //         />
-        //         <p style={{ color: "red" }}> {formik.errors.dob}</p>
-
-        //         <label htmlFor="profile_picture">Profile Picture</label>
-        //         <input
-        //         type="text"
-        //         name="profile_picture"
-        //         id="profile_picture"
-        //         onChange={formik.handleChange}
-        //         />
-        //         <p style={{ color: "red" }}> {formik.errors.profile_picture}</p>
-
-        //         <label htmlFor="cover_picture">Cover Photo</label>
-        //         <input
-        //         type="text"
-        //         name="cover_picture"
-        //         id="cover_picture"
-        //         onChange={formik.handleChange}
-        //         />
-        //         <p style={{ color: "red" }}> {formik.errors.cover_picture}</p>
-
-        //         <label htmlFor="bio">Bio</label>
-        //         <input
-        //         type="text"
-        //         name="bio"
-        //         id="bio"
-        //         onChange={formik.handleChange}
-        //         />
-        //         <p style={{ color: "red" }}> {formik.errors.bio}</p>
-
-        //         <div>
-        //             <button type="submit">Submit</button>
-        //         </div>
-        //     </form>
-        // </div>
     );
 }
 

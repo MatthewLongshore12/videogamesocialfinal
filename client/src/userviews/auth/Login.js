@@ -107,11 +107,11 @@ function Login({handleLogin}) {
               onChange={(e) => setPassword(e.target.value)}
               sx={{ width: "100%", mb: 2 }}
               inputProps={{ style: { color: "#ffffff" } }}
-              multiline
               id="password"
               label="Password"
               variant="outlined"
               value={password}
+              type="password"
             />
             <SubmitButton type="submit">Go</SubmitButton>
           </form>
