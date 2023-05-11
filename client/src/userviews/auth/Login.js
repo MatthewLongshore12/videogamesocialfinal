@@ -85,46 +85,49 @@ function Login({handleLogin}) {
       }
 
     return (
-      <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "20px", minHeight: "100vh", backgroundColor: "#141414" }}>
-      <header className='toppage'>
-      </header>
-      <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", padding: "50px 0" }}>
-        <StyledBox>
-          <StyledHeader>Log In</StyledHeader>
-          <form onSubmit={handleSubmit} style={{width: "100%"}}>
-            <Box sx={{ display: "flex", alignItems: "center", gap: "10px", mb: 3 }}>
-            </Box>
-            <StyledTextField
-              onChange={(e) => setEmail(e.target.value)}
-              sx={{ width: "100%", mb: 2 }}
-              inputProps={{ style: { color: "#ffffff" } }}
-              id="email"
-              label="Email"
-              variant="outlined"
-              value={email}
-            />
-            <StyledTextField
-              onChange={(e) => setPassword(e.target.value)}
-              sx={{ width: "100%", mb: 2 }}
-              inputProps={{ style: { color: "#ffffff" } }}
-              id="password"
-              label="Password"
-              variant="outlined"
-              value={password}
-              type="password"
-            />
-            <SubmitButton type="submit">Go</SubmitButton>
-          </form>
-        </StyledBox>
+      <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', minHeight: '100vh', backgroundColor: '#141414', padding: '0 50px' }}>
+        <header className='toppage' style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '20px' }}>
+          <h1 style={{ fontSize: '4em', marginBottom: '30px' }}>
+            <span style={{ color: '#88d4c3' }}>Game</span>
+            <span style={{ color: '#a8aedd' }}>Cloud</span>
+          </h1>
+          <h2 style={{ color: '#d4d4d4' }}>Connect with Gamers Worldwide: Create, Explore, Chat</h2>
+          </header>
+          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', gap: '20px' }}>
+            <StyledBox>
+              <StyledHeader>Log In</StyledHeader>
+              <form onSubmit={handleSubmit} style={{ width: '100%' }}>
+                <StyledTextField
+                  onChange={(e) => setEmail(e.target.value)}
+                  sx={{ width: '100%', mb: 2 }}
+                  inputProps={{ style: { color: '#ffffff' } }}
+                  id='email'
+                  label='Email'
+                  variant='outlined'
+                  value={email}
+                />
+                <StyledTextField
+                  onChange={(e) => setPassword(e.target.value)}
+                  sx={{ width: '100%', mb: 2 }}
+                  inputProps={{ style: { color: '#ffffff' } }}
+                  id='password'
+                  label='Password'
+                  variant='outlined'
+                  value={password}
+                  type='password'
+                />
+                <SubmitButton type='submit'>Go</SubmitButton>
+              </form>
+            </StyledBox>
+            <footer className='buttpage' style={{ display: 'flex', justifyContent: 'center' }}>
+              <h3>Don't have an account? Sign Up! 
+                <Link to='/signup'>
+                  <PersonAddAltIcon sx={{display: 'flex'}}/>
+                </Link>
+              </h3>
+            </footer>
+          </Box>
       </Box>
-      <footer className='buttpage'>
-        <h3>Don't have an account? Sign Up! 
-          <Link to='/signup'>
-            <PersonAddAltIcon sx={{display: 'flex'}}/>
-          </Link>
-        </h3>
-      </footer>
-    </Box>
     )
 }
 
