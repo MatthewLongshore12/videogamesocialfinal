@@ -393,6 +393,15 @@ class ChatById(Resource):
         db.session.commit()
 
         return {'message': 'Chat message deleted successfully'}, 200
+    
+@app.route('/check_username', methods=['POST'])
+def check_username():
+    username = request.json.get('username')
+    existing_user = User.query.filter(User.username == username).first()
+    if existing_user:
+        return jsonify({'status': 'error', 'message': 'Username is already taken'}), 400
+    else:
+        return jsonify({'status': 'ok'}), 200
 
 
 

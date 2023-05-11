@@ -104,19 +104,36 @@ function Signup({ onLogin, setUser }) {
         },
         validationSchema: formSchema,
         onSubmit: (values) => {
-            fetch("http://127.0.0.1:5555/signup", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(values, null, 2),
-            }).then((r) => {
-                if (r.ok) {
-                    r.json().then((user) => setUser(user));
-                }
-            });
-            navigate('/login')
-        },
+          fetch("http://127.0.0.1:5555/check_username", {
+              method: "POST",
+              headers: {
+                  "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ username: values.username }),
+          }).then((r) => {
+              if (r.ok) {
+                  return r.json().then((data) => {
+                      if (data.is_taken) {
+                          window.alert("Username is already taken.");
+                      } else {
+                          // Username is available, submit the form
+                          fetch("http://127.0.0.1:5555/signup", {
+                              method: "POST",
+                              headers: {
+                                  "Content-Type": "application/json",
+                              },
+                              body: JSON.stringify(values, null, 2),
+                          }).then((r) => {
+                              if (r.ok) {
+                                  r.json().then((user) => setUser(user));
+                              }
+                          });
+                          navigate('/login')
+                      }
+                  });
+              }
+          });
+      },
     });
 
     const handleGoBack = () => {
