@@ -27,6 +27,13 @@ class User(db.Model, SerializerMixin):
     communities_created = db.relationship('Community', backref='creator', cascade='all, delete-orphan')
     comments = db.relationship('Comment', backref='user', cascade='all, delete')
 
+    @validates('username')
+    def validate_username(self, key, value):
+        existing_user = User.query.filter(User.username == value).first()
+        if existing_user and existing_user.id != self.id:
+            raise ValueError('Username is already taken.')
+        return value
+
     @property
     def num_posts(self):
         return len(self.posts)

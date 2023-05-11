@@ -17,7 +17,7 @@ import {
 import DeleteIcon from "@mui/icons-material/Delete";
 import styled from '@emotion/styled';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-
+import { createTheme } from '@mui/material/styles';
 
 
 const StyledBox = styled(Box)({
@@ -78,6 +78,28 @@ function EditProfile() {
     const [lastname, setLastName] = useState(user.last_name);
     const [open, setOpen] = useState(false);
     const navigate = useNavigate();
+
+    const theme = createTheme({
+      palette: {
+        primary: {
+          main: '#a8aedd',
+        },
+        secondary: {
+          main: '#a8aedd',
+        },
+        text: {
+          primary: '#a8aedd',
+        },
+      },
+    });
+  
+    const theme2 = {
+      primary: {
+        main: '#a8aedd',
+        dark: '#4b5e91',
+        light: '#99aab5',
+      },
+    };
 
     
 
@@ -241,8 +263,8 @@ function EditProfile() {
             <DialogTitle>Delete Account</DialogTitle>
             <DialogContent>Are you sure you want to delete your account?</DialogContent>
             <DialogActions>
-                <Button onClick={handleClose}>Cancel</Button>
-                <Button onClick={() => {
+                <Button type="submit" variant="contained" color="primary" style={{ marginTop: '10px', backgroundColor: theme2.primary.main }} onClick={handleClose}>Cancel</Button>
+                <Button type="submit" variant="contained" color="primary" style={{ marginTop: '10px', backgroundColor: theme2.primary.main }} onClick={() => {
                     handleDeleteUser();
                     handleClose();
                 }}>Delete</Button>
