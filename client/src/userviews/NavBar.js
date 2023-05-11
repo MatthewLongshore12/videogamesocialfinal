@@ -62,7 +62,8 @@ function NavBar() {
     <AppBar position="sticky">
     <StyledToolbar>
       <Typography  variant='h6' sx={{display:{xs:"none",sm:"block"}}}>
-        VideoGameSocial
+            <span style={{ color: '#88d4c3' }}>Game</span>
+            <span style={{ color: '#a8aedd' }}>Cloud</span>
       </Typography>
       <PetsIcon variant='h6' sx={{display:{xs:"block",sm:"none"}}}>
           </PetsIcon>
