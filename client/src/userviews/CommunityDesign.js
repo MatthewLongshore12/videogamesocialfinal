@@ -2,7 +2,7 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-import { ImageList, ImageListItem, ListSubheader, ImageListItemBar, IconButton, TextField } from '@mui/material';
+import { Box, ImageList, ImageListItem, ListSubheader, ImageListItemBar, IconButton, TextField, CardActionArea, Grid } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom'
 import InfoIcon from '@mui/icons-material/Info';
@@ -89,33 +89,41 @@ const CommunityDesign = () => {
           },
         }}
       />
-      <ImageList sx={{ width: 500, height: 450 }}>
-        {filteredCommData.map((item) => (
-          <ImageListItem key={item.id}>
-            <img
-              src={`${item.image}?w=248&fit=crop&auto=format`}
-              srcSet={`${item.image}?w=248&fit=crop&auto=format&dpr=2 2x`}
-              alt={item.name}
-              loading="lazy"
-            />
-            <ImageListItemBar
-              title={item.name}
-              subtitle={item.video_game}
-              actionIcon={
+      <Box mt={2}>
+        <Grid container spacing={2}>
+          {filteredCommData.map((item) => (
+            <Grid item xs={12} sm={6} md={4} key={item.id}>
+              <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+                <CardActionArea onClick={() => navigate(`/communities/${item.id}/home`)}>
+                  <CardMedia
+                    component="img"
+                    sx={{ height: 140 }}
+                    image={`${item.image}?w=248&fit=crop&auto=format`}
+                    alt={item.name}
+                  />
+                  <CardContent sx={{ flexGrow: 1 }}>
+                    <Typography gutterBottom variant="h5" component="h2">
+                      {item.name}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      {item.video_game}
+                    </Typography>
+                  </CardContent>
+                </CardActionArea>
                 <IconButton
-                  onClick={() => navigate(`/communities/${item.id}/home`)}
-                  sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
+                  sx={{ position: 'absolute', top: 0, right: 0, color: 'rgba(255, 255, 255, 0.54)' }}
                   aria-label={`info about ${item.name}`}
+                  onClick={() => navigate(`/communities/${item.id}/home`)}
                 >
                   <InfoIcon />
                 </IconButton>
-              }
-            />
-          </ImageListItem>
-        ))}
-      </ImageList>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
+      </Box>
     </>
-  )
+  );
 }
 
 export default CommunityDesign
